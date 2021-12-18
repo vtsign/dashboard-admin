@@ -5,8 +5,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import authApi from '../api/authApi';
+import { useToast } from "../components/toast/useToast";
 
 const Login = () => {
+	const { success, error } = useToast();
 	const router = useRouter();
 	const formik = useFormik({
 		initialValues: {
@@ -21,7 +23,29 @@ const Login = () => {
 			password: Yup.string().max(255).required("Password is required"),
 		}),
 		onSubmit: async (formData) => {
-			const response = await authApi.login(formData.email, formData.password);
+			try {
+				const response = await authApi.login(formData.email, formData.password);
+				let isAdmin = false;
+				if(response.status === 200) {
+					const { data } = response;
+					data.roles.forEach(item => {
+						if(item.name === "ADMIN")
+							isAdmin = true;
+					})
+					if (!isAdmin) {
+						error("Tài khoản không có quyền đăng nhập");
+						return;
+
+					} else {
+
+						success("Đăng nhập thành công");
+						router.push('/')
+					}
+				}
+
+			} catch (err) {
+				error("Đã có lỗi xảy ra")
+			}
 		},
 	});
 
