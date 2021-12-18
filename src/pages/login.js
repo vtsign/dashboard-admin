@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -6,8 +7,10 @@ import * as Yup from "yup";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import authApi from '../api/authApi';
 import { useToast } from "../components/toast/useToast";
+import Loading from 'src/components/Loading/Loading';
 
 const Login = () => {
+	const [isLoading, setIsLoading] = useState(false);
 	const { success, error } = useToast();
 	const router = useRouter();
 	const formik = useFormik({
@@ -23,6 +26,7 @@ const Login = () => {
 			password: Yup.string().max(255).required("Password is required"),
 		}),
 		onSubmit: async (formData) => {
+			setIsLoading(true);
 			try {
 				const response = await authApi.login(formData.email, formData.password);
 				let isAdmin = false;
@@ -33,24 +37,27 @@ const Login = () => {
 							isAdmin = true;
 					})
 					if (!isAdmin) {
+						setIsLoading(false)
 						error("Tài khoản không có quyền đăng nhập");
 						return;
 
 					} else {
-
+						setIsLoading(false);
 						success("Đăng nhập thành công");
 						router.push('/')
 					}
 				}
 
 			} catch (err) {
-				error("Đã có lỗi xảy ra")
+				error("Tài khoản hoặc mật khẩu không đúng");
+				setIsLoading(false);
 			}
 		},
 	});
 
 	return (
 		<>
+			{isLoading && <Loading />}
 			<Head>
 				<title>Login</title>
 			</Head>

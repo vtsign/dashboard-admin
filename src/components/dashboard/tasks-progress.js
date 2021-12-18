@@ -18,13 +18,28 @@ export const TasksProgress = (props) => (
             gutterBottom
             variant="overline"
           >
-            TASKS PROGRESS
+          TÀI LIỆU ĐÃ GỬI
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            75.5%
+            {props.totalContracts?.sent}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Typography
+            color="textSecondary"
+            gutterBottom
+            variant="overline"
+          >
+           TÀI LIỆU ĐÃ HOÀN THÀNH
+          </Typography>
+          <Typography
+            color="textPrimary"
+            variant="h4"
+          >
+            {props.totalContracts?.completed}
           </Typography>
         </Grid>
         <Grid item>
@@ -39,11 +54,13 @@ export const TasksProgress = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box sx={{ pt: 3 }}>
-        <LinearProgress
-          value={75.5}
-          variant="determinate"
-        />
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          pt: 2
+        }}
+      >
       </Box>
     </CardContent>
   </Card>
