@@ -24,7 +24,7 @@ const userApi = {
 			id
 		};
 
-		return axiosClient.delete(url, data);
+		return axiosClient.delete(url, { data } );
 	},
 	async blockUser(id) {
 		const url = `/user/management/block-user`;
