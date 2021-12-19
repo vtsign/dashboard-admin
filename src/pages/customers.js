@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import Head from "next/head";
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Box, Container } from "@mui/material";
-import { CustomerListResults } from "../components/customer/customer-list-results";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
-import { DashboardLayout } from "../components/dashboard-layout";
-import { customers } from "../__mocks__/customers";
-import userApi from "src/api/userApi";
+import { Box, Container } from '@mui/material';
+import { CustomerListResults } from '../components/customer/customer-list-results';
+import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
+import { DashboardLayout } from '../components/dashboard-layout';
+import userApi from 'src/api/userApi';
 import Loading from 'src/components/Loading/Loading';
 
 // export async function getServerSideProps(ctx) {
@@ -26,7 +25,6 @@ import Loading from 'src/components/Loading/Loading';
 
 // 	return data;
 // }
-
 const Customers = (props) => {
 	const [data, setData] = useState();
 	const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +37,7 @@ const Customers = (props) => {
 			try {
 				setIsLoading(true);
 				const res = await userApi.getUsers(page, size);
-				if(res.status === 200) {
+				if (res.status === 200) {
 					setData(res.data);
 					setIsLoading(false);
 				}
@@ -51,7 +49,7 @@ const Customers = (props) => {
 
 		})();
 
-	}, [page, size])
+	}, [page, size]);
 
 	const handleChangePage = async (e, page) => {
 		router.push(`/customers?page=${page + 1}&size=${size}`);
@@ -62,35 +60,34 @@ const Customers = (props) => {
 	};
 
 	return (
-		<>
-			<Head>
-				<title>Customers | Material Kit</title>
-			</Head>
-			{isLoading && <Loading />}
-			<Box
-				component="main"
-				sx={{
-					flexGrow: 1,
-					py: 8,
-				}}
-			>
-				<Container maxWidth={false}>
-					<CustomerListToolbar />
-					<Box sx={{ mt: 3 }}>
-						{data && (
-							<CustomerListResults
-								customers={customers}
-								data={data}
-								page={page}
-								size={size}
-								handleChangePage={handleChangePage}
-								handleChangeRowsPerPage={handleChangeRowsPerPage}
-							/>
-						)}
-					</Box>
-				</Container>
-			</Box>
-		</>
+	  <>
+		  <Head>
+			  <title>Customers | Material Kit</title>
+		  </Head>
+		  {isLoading && <Loading/>}
+		  <Box
+			component="main"
+			sx={{
+				flexGrow: 1,
+				py: 8
+			}}
+		  >
+			  <Container maxWidth={false}>
+				  <CustomerListToolbar/>
+				  <Box sx={{ mt: 3 }}>
+					  {data && (
+						<CustomerListResults
+						  data={data}
+						  page={page}
+						  size={size}
+						  handleChangePage={handleChangePage}
+						  handleChangeRowsPerPage={handleChangeRowsPerPage}
+						/>
+					  )}
+				  </Box>
+			  </Container>
+		  </Box>
+	  </>
 	);
 };
 

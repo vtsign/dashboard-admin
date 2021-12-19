@@ -1,7 +1,8 @@
-import { Snackbar, Alert } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import React, { useState } from 'react';
 import { ToastContext } from '../useToast.js';
 import styles from './toast.module.css';
+
 export const ToastProvider = (props) => {
 	const { children } = props;
 	const [state, setState] = useState({ isOpen: false });
@@ -29,32 +30,32 @@ export const ToastProvider = (props) => {
 	};
 	const { isOpen, message } = state;
 	return (
-		<ToastContext.Provider
-			value={{
-				error: error,
-				warn: warn,
-				info: info,
-				success: success,
-				hide: hide,
-			}}
-		>
-			{children}
-			{message && (
-				<Snackbar
-					open={isOpen}
-					autoHideDuration={3000}
-					onClose={hide}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'right',
-					}}
-					className={styles.customWidthToast}
-				>
-					<Alert elevation={6} variant="filled" onClose={hide} severity={message.type}>
-						{message.text}
-					</Alert>
-				</Snackbar>
-			)}
-		</ToastContext.Provider>
+	  <ToastContext.Provider
+		value={{
+			error: error,
+			warn: warn,
+			info: info,
+			success: success,
+			hide: hide
+		}}
+	  >
+		  {children}
+		  {message && (
+			<Snackbar
+			  open={isOpen}
+			  autoHideDuration={3000}
+			  onClose={hide}
+			  anchorOrigin={{
+				  vertical: 'top',
+				  horizontal: 'right'
+			  }}
+			  className={styles.customWidthToast}
+			>
+				<Alert elevation={6} variant="filled" onClose={hide} severity={message.type}>
+					{message.text}
+				</Alert>
+			</Snackbar>
+		  )}
+	  </ToastContext.Provider>
 	);
 };

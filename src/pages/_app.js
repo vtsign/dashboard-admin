@@ -6,31 +6,31 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { createEmotionCache } from '../utils/create-emotion-cache';
 import { theme } from '../theme';
-import { ToastProvider } from "../components/toast/providers/ToastProvider.js";
+import { ToastProvider } from '../components/toast/providers/ToastProvider.js';
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = (props) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+	const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+	const getLayout = Component.getLayout ?? ((page) => page);
 
-  return (
-		<CacheProvider value={emotionCache}>
-			<Head>
-				<title>Material Kit Pro</title>
-				<meta name="viewport" content="initial-scale=1, width=device-width" />
-			</Head>
-			<LocalizationProvider dateAdapter={AdapterDateFns}>
-				<ThemeProvider theme={theme}>
-					<ToastProvider>
-						<CssBaseline />
-						{getLayout(<Component {...pageProps} />)}
-					</ToastProvider>
-				</ThemeProvider>
-			</LocalizationProvider>
-		</CacheProvider>
-  );
+	return (
+	  <CacheProvider value={emotionCache}>
+		  <Head>
+			  <title>Material Kit Pro</title>
+			  <meta name="viewport" content="initial-scale=1, width=device-width"/>
+		  </Head>
+		  <LocalizationProvider dateAdapter={AdapterDateFns}>
+			  <ThemeProvider theme={theme}>
+				  <ToastProvider>
+					  <CssBaseline/>
+					  {getLayout(<Component {...pageProps} />)}
+				  </ToastProvider>
+			  </ThemeProvider>
+		  </LocalizationProvider>
+	  </CacheProvider>
+	);
 };
 
 export default App;

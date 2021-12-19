@@ -5,24 +5,24 @@ import ReactDOM from "react-dom";
 
 const LoadingBackdrop = () => {
 	return (
-		<Backdrop
+	  <Backdrop
+		sx={{
+			backgroundColor: "rgb(255 255 255 /60%);",
+			zIndex: (theme) => theme.zIndex.drawer + 1,
+		}}
+		open={true}
+	  >
+		  <CircularProgress
 			sx={{
-				backgroundColor: "rgb(255 255 255 /60%);",
-				zIndex: (theme) => theme.zIndex.drawer + 1,
+				animationDuration: "550ms",
 			}}
-			open={true}
-		>
-			<CircularProgress
-				sx={{
-					animationDuration: "550ms",
-				}}
-			/>
-		</Backdrop>
+		  />
+	  </Backdrop>
 	);
 };
 
 const Loading = () => {
-	return ReactDOM.createPortal(<LoadingBackdrop />, document.querySelector("body"));
+	return ReactDOM.createPortal(<LoadingBackdrop/>, document.querySelector("body"));
 };
 
 export default Loading;
