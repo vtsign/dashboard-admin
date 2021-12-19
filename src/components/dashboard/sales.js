@@ -3,6 +3,7 @@ import {
 	Box,
 	Card,
 	CardContent,
+	CardHeader,
 	Divider,
 	FormControl,
 	InputLabel,
@@ -12,6 +13,10 @@ import {
 } from '@mui/material';
 
 export const Sales = (props) => {
+	const handleLabelChange = (e) => {
+		setType(e.target.value);
+	};
+
 	const { data, title, setType, type } = props;
 	const theme = useTheme();
 
@@ -63,25 +68,30 @@ export const Sales = (props) => {
 			titleFontColor: theme.palette.text.primary
 		}
 	};
-	console.log('sale renders');
 
 	return (
 	  <Card>
-		  <FormControl>
-			  <InputLabel id="demo-simple-select-label">Chọn thời gian</InputLabel>
-			  <Select
-				labelId="demo-simple-select-label"
-				id="demo-simple-select"
-				value={type}
-				label="Chọn thời gian"
-				onChange={(e) => setType(e.target.value)}
-			  >
-				  <MenuItem value="week">Tuần</MenuItem>
-				  <MenuItem value="month">Tháng</MenuItem>
-				  <MenuItem value="year">Năm</MenuItem>
-				  <MenuItem value="all">Tất cả</MenuItem>
-			  </Select>
-		  </FormControl>
+		  <CardHeader
+			action={(
+			  <FormControl>
+				  <InputLabel id="demo-simple-select-label">Chọn thời gian</InputLabel>
+				  <Select
+					labelId="demo-simple-select-label"
+					id="demo-simple-select"
+					value={type}
+					label="Chọn thời gian"
+					onChange={handleLabelChange}
+				  >
+					  <MenuItem value="week">Tuần</MenuItem>
+					  <MenuItem value="month">Tháng</MenuItem>
+					  <MenuItem value="year">Năm</MenuItem>
+					  <MenuItem value="all">Tất cả</MenuItem>
+				  </Select>
+			  </FormControl>
+			)}
+			title={title}
+		  />
+
 		  <Divider/>
 		  <CardContent>
 			  <Box
@@ -100,7 +110,7 @@ export const Sales = (props) => {
 				justifyContent: 'flex-end',
 				p: 2
 			}}
-		  ></Box>
+		  />
 	  </Card>
 	);
 };

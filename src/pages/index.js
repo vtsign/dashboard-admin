@@ -9,7 +9,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import userApi from 'src/api/userApi';
 import documentApi from 'src/api/documentApi';
 
-const dataContract = {
+const dataContractInit = {
 	datasets: [
 		{
 			backgroundColor: '#3F51B5',
@@ -43,15 +43,15 @@ const dataUserInit = {
 			barThickness: 12,
 			borderRadius: 4,
 			categoryPercentage: 0.5,
-			data: [1, 2, 3],
+			data: [],
 			label: 'Số người đùng',
 			maxBarThickness: 10
 		}
 	],
-	labels: ['1', '2', '3']
+	labels: []
 };
 
-const dataMoney = {
+const dataMoneyInit = {
 	datasets: [
 		{
 			backgroundColor: '#3F51B5',
@@ -59,12 +59,12 @@ const dataMoney = {
 			barThickness: 12,
 			borderRadius: 4,
 			categoryPercentage: 0.5,
-			data: [1, 2, 3],
+			data: [],
 			label: 'Số tiền nạp vào',
 			maxBarThickness: 10
 		}
 	],
-	labels: ['1', '2', '3']
+	labels: []
 };
 
 const Dashboard = () => {
@@ -74,6 +74,8 @@ const Dashboard = () => {
 	const [contractType, setContractType] = useState('year');
 	const [type, setType] = useState('month');
 	const [dataUser, setDataUser] = useState(dataUserInit);
+	const [dataMoney, setDataMoney] = useState(dataMoneyInit);
+	const [dataContract, setDataContract] = useState(dataContractInit);
 
 	useEffect(() => {
 		(async () => {
@@ -92,51 +94,54 @@ const Dashboard = () => {
 	useEffect(() => {
 		(async () => {
 			const { data: statisticUser } = await userApi.statisticUser(userType);
-			setDataUser((prev) => {
-				prev.datasets = [
-					{
-						...prev.datasets[0],
-						data: statisticUser.map((item) => item.value)
-					}
-				];
-				prev.labels = statisticUser.map((item) => item.name);
 
-				return prev;
+			setDataUser({
+				...dataUser,
+				datasets: [
+					{
+						...dataUser.datasets[0],
+						data: statisticUser.map(item => item.value)
+					}
+				],
+				labels: statisticUser.map(item => item.name)
 			});
-			console.log('user effect user');
 		})();
 	}, [userType, dataUser]);
 
 	useEffect(() => {
 		(async () => {
 			const { data: statisticMoney } = await userApi.statisticMoney(moneyType);
-			dataMoney.datasets = [
-				{
-					...dataMoney.datasets[0],
-					data: statisticMoney.map((item) => item.value)
-				}
-			];
-			dataMoney.labels = statisticMoney.map((item) => item.name);
+			setDataMoney({
+				...dataMoney,
+				datasets: [
+					{
+						...dataMoney.datasets[0],
+						data: statisticMoney.map(item => item.value)
+					}
+				],
+				labels: statisticMoney.map(item => item.name)
+			});
 		})();
-		console.log('user effect money');
 	}, [moneyType]);
 
 	useEffect(() => {
 		(async () => {
 			const { data: statisticContract } = await documentApi.statisticContract(contractType);
-			dataContract.datasets = [
-				{
-					...dataContract.datasets[0],
-					data: statisticContract['sent'].map((item) => item.value)
-				},
-				{
-					...dataContract.datasets[1],
-					data: statisticContract['completed'].map((item) => item.value)
-				}
-			];
-			dataContract.labels = statisticContract['sent'].map((item) => item.name);
+			setDataContract({
+				...dataContract,
+				datasets: [
+					{
+						...dataContract.datasets[0],
+						data: statisticContract['sent'].map(item => item.value)
+					},
+					{
+						...dataContract.datasets[1],
+						data: statisticContract['completed'].map(item => item.value)
+					}
+				],
+				labels: statisticContract['sent'].map(item => item.name)
+			});
 		})();
-		console.log('user effect document');
 	}, [contractType]);
 
 	const formatNumber = (num) => {
@@ -144,7 +149,7 @@ const Dashboard = () => {
 		return num?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 	};
 
-	const handleChangeFilterQuickview = (event) => {
+	const handleChangeFilterQuickView = (event) => {
 		setType(event.target.value);
 	};
 
@@ -167,7 +172,7 @@ const Dashboard = () => {
 					id="demo-simple-select"
 					value={type}
 					label="Chọn thời gian"
-					onChange={handleChangeFilterQuickview}
+					onChange={handleChangeFilterQuickView}
 				  >
 					  <MenuItem value="date">Ngày</MenuItem>
 					  <MenuItem value="week">Tuần</MenuItem>
@@ -190,15 +195,6 @@ const Dashboard = () => {
 					  <Grid item xl={4} lg={4} sm={6} xs={12}>
 						  <TasksProgress totalContracts={dataQuickView.totalContracts}/>
 					  </Grid>
-					  {/* <Grid
-            item
-            xl={3}
-            lg={3}
-            sm={6}
-            xs={12}
-          >
-            <TotalProfit sx={{ height: '100%' }} />
-          </Grid> */}
 					  <Grid item lg={12} md={12} xl={12} xs={12}>
 						  <Sales
 							title="Thống kê người dùng"
@@ -223,15 +219,6 @@ const Dashboard = () => {
 							setType={setContractType}
 						  />
 					  </Grid>
-					  {/* <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <TrafficByDevice sx={{ height: '100%' }} />
-          </Grid> */}
 				  </Grid>
 			  </Container>
 		  </Box>
