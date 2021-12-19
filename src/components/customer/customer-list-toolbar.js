@@ -19,11 +19,63 @@ import {
 import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import userApi from "src/api/userApi";
+import { useToast } from "../toast/useToast";
+import { useRouter } from "next/router";
+import Loading from "../Loading/Loading";
 
 export const CustomerListToolbar = (props) => {
 	const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const router = useRouter();
+	const { success, error } = useToast();
+
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+			phone: "",
+			organization: "",
+			address: "",
+			role: "",
+			first_name: "",
+			last_name: "",
+		},
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.email("Email không đúng định dạng")
+				.max(255)
+				.required("Vui lòng nhập địa chỉ email"),
+			password: Yup.string().max(255).required("Vui lòng nhập mật khẩu"),
+			phone: Yup.string().max(255).required("Vui lòng nhập số điện thoại"),
+			organization: Yup.string().max(255).required("Vui lòng nhập cơ quan"),
+			address: Yup.string().max(255).required("Vui lòng nhập địa chỉ"),
+			role: Yup.string().max(255).required("Vui lòng nhập vai trò"),
+			first_name: Yup.string().max(255).required("Vui lòng nhập tên"),
+			last_name: Yup.string().max(255).required("Vui lòng nhập họ và tên đệm"),
+		}),
+		onSubmit: async (formData) => {
+			setIsLoading(true);
+			try {
+				const response = await userApi.createUser(formData);
+				if(response.status >= 200 && response.status < 300) {
+					setIsLoading(false);
+					success("Thêm người dùng thành công");
+					setOpenAddCustomerDialog(false);
+					router.reload();
+				}
+			} catch(err) {
+				setIsLoading(false);
+				error("Đã có lỗi xảy ra");
+			}
+		}
+	});
 	return (
 		<Box {...props}>
+			{isLoading && <Loading />}
 			<Box
 				sx={{
 					alignItems: "center",
@@ -74,36 +126,154 @@ export const CustomerListToolbar = (props) => {
 				fullWidth
 				maxWidth={"lg"}
 			>
-				<DialogTitle>Thêm người dùng</DialogTitle>
-				<DialogContent dividers>
-					<Grid container spacing={3}>
-						<Grid item md={6}>
-							<InputLabel>
-								Họ và tên đệm <span style={{ color: "red" }}>*</span>
-							</InputLabel>
-							<TextField
-								id="lastName"
-								fullWidth
-								placeholder="Nhập họ và tên đệm"
-							/>
+				<form onSubmit={formik.handleSubmit}>
+					<DialogTitle>Thêm người dùng</DialogTitle>
+					<DialogContent dividers>
+						<Grid container spacing={3}>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(
+										formik.touched.first_name && formik.errors.first_name
+									)}
+									fullWidth
+									helperText={
+										formik.touched.first_name && formik.errors.first_name
+									}
+									label="Tên"
+									margin="normal"
+									name="first_name"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.first_name}
+									variant="outlined"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(
+										formik.touched.last_name && formik.errors.last_name
+									)}
+									fullWidth
+									helperText={formik.touched.last_name && formik.errors.last_name}
+									label="Họ và tên đệm"
+									margin="normal"
+									name="last_name"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.last_name}
+									variant="outlined"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(formik.touched.email && formik.errors.email)}
+									fullWidth
+									helperText={formik.touched.email && formik.errors.email}
+									label="Địa chỉ email"
+									margin="normal"
+									name="email"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									type="email"
+									value={formik.values.email}
+									variant="outlined"
+									autoComplete="off"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(
+										formik.touched.password && formik.errors.password
+									)}
+									fullWidth
+									helperText={formik.touched.password && formik.errors.password}
+									label="Mật khẩu"
+									margin="normal"
+									name="password"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									type="password"
+									value={formik.values.password}
+									variant="outlined"
+									autoComplete="off"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(formik.touched.phone && formik.errors.phone)}
+									fullWidth
+									helperText={formik.touched.phone && formik.errors.phone}
+									label="Số điện thoại"
+									margin="normal"
+									name="phone"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.phone}
+									variant="outlined"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(
+										formik.touched.organization && formik.errors.organization
+									)}
+									fullWidth
+									helperText={
+										formik.touched.organization && formik.errors.organization
+									}
+									label="Cơ quan"
+									margin="normal"
+									name="organization"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.organization}
+									variant="outlined"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(formik.touched.address && formik.errors.address)}
+									fullWidth
+									helperText={formik.touched.address && formik.errors.address}
+									label="Địa chỉ"
+									margin="normal"
+									name="address"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.address}
+									variant="outlined"
+								/>
+							</Grid>
+							<Grid item md={6}>
+								<TextField
+									error={Boolean(formik.touched.role && formik.errors.role)}
+									fullWidth
+									helperText={formik.touched.role && formik.errors.role}
+									label="Vai trò"
+									margin="normal"
+									name="role"
+									onBlur={formik.handleBlur}
+									onChange={formik.handleChange}
+									value={formik.values.role}
+									variant="outlined"
+								/>
+							</Grid>
 						</Grid>
-						<Grid item md={6}>
-							5
-						</Grid>
-					</Grid>
-				</DialogContent>
-				<DialogActions>
-					<Button variant="outlined" onClick={() => setOpenAddCustomerDialog(false)}>
-						Đóng
-					</Button>
-					<Button
-						variant="contained"
-						color="primary"
-						// onClick={hookForm.handleSubmit(handleOk)}
-					>
-						Đồng ý
-					</Button>
-				</DialogActions>
+					</DialogContent>
+					<DialogActions>
+						<Button variant="outlined" onClick={() => setOpenAddCustomerDialog(false)}>
+							Đóng
+						</Button>
+						<Button
+							variant="contained"
+							color="primary"
+							disabled={formik.isSubmitting}
+							type="submit"
+						>
+							Đồng ý
+						</Button>
+					</DialogActions>
+				</form>
 			</Dialog>
 		</Box>
 	);
