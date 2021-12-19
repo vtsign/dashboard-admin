@@ -21,7 +21,7 @@ const userApi = {
 
 		const data = {
 			status: true,
-			id
+			id,
 		};
 
 		return axiosClient.delete(url, data);
@@ -31,20 +31,27 @@ const userApi = {
 
 		const data = {
 			status: true,
-			id
-		}
+			id,
+		};
 
 		return axiosClient.put(url, data);
 	},
-	countDeposit(type = 'month') {
+	countDeposit(type = "month") {
 		const url = `/user/management/total-deposit?type=${type}`;
 		return axiosClient.get(url);
 	},
-	countUser(type = 'month') {
+	countUser(type = "month") {
 		const url = `/user/management/count-user?type=${type}`;
 		return axiosClient.get(url);
 	},
-
+	statisticUser: (type = "month") => {
+		const url = `/user/management/statistic-user?type=${type}`;
+		return axiosClient.get(url);
+	},
+	statisticMoney: (type = "month") => {
+		const url = `/user/management/statistic-money?type=${type}`;
+		return axiosClient.get(url);
+	},
 };
 
 export default userApi;
