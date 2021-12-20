@@ -12,7 +12,18 @@ export const Budget = (props) => (
 			spacing={3}
 			sx={{ justifyContent: 'space-between' }}
 		  >
-			  <Grid item>
+			  <Grid item xs={12}>
+			  <Avatar
+				sx={{
+					backgroundColor: 'error.main',
+					height: 56,
+					width: 56
+				}}
+			  >
+				  <MoneyIcon/>
+			  </Avatar>
+		  </Grid>
+			  <Grid item xs={12}>
 				  <Typography
 					color="textSecondary"
 					gutterBottom
@@ -26,17 +37,6 @@ export const Budget = (props) => (
 				  >
 					  {props.formatNumber(props.totalDeposit)}{' đ'}
 				  </Typography>
-			  </Grid>
-			  <Grid item>
-				  <Avatar
-					sx={{
-						backgroundColor: 'error.main',
-						height: 56,
-						width: 56
-					}}
-				  >
-					  <MoneyIcon/>
-				  </Avatar>
 			  </Grid>
 		  </Grid>
 	  </CardContent>

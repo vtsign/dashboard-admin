@@ -12,6 +12,17 @@ export const TasksProgress = (props) => (
 			spacing={3}
 			sx={{ justifyContent: 'space-between' }}
 		  >
+			  <Grid item xs={12}>
+				  <Avatar
+					sx={{
+						backgroundColor: 'warning.main',
+						height: 56,
+						width: 56
+					}}
+				  >
+					  <InsertChartIcon/>
+				  </Avatar>
+			  </Grid>
 			  <Grid item>
 				  <Typography
 					color="textSecondary"
@@ -42,26 +53,15 @@ export const TasksProgress = (props) => (
 					  {props.totalContracts?.completed}
 				  </Typography>
 			  </Grid>
-			  <Grid item>
-				  <Avatar
-					sx={{
-						backgroundColor: 'warning.main',
-						height: 56,
-						width: 56
-					}}
-				  >
-					  <InsertChartIcon/>
-				  </Avatar>
-			  </Grid>
 		  </Grid>
-		  <Box
-			sx={{
-				alignItems: 'center',
-				display: 'flex',
-				pt: 2
-			}}
-		  >
-		  </Box>
+		  {/*<Box*/}
+			{/*sx={{*/}
+			{/*	alignItems: 'center',*/}
+			{/*	display: 'flex',*/}
+			{/*	pt: 2*/}
+			{/*}}*/}
+		  {/*>*/}
+		  {/*</Box>*/}
 	  </CardContent>
   </Card>
 );
