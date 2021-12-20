@@ -51,7 +51,22 @@ const userApi = {
 	statisticMoney: (type = 'month') => {
 		const url = `/user/management/statistic-money?type=${type}`;
 		return axiosClient.get(url);
-	}
+	},
+	async getUserProfile() {
+		const url = "/user/profile";
+		const response = await axiosClient.get(url);
+		return response;
+	},
+	async updateUserProfile(data) {
+		const url = "/user/profile";
+		const response = await axiosClient.post(url, data);
+		return response;
+	},
+	async updateAvatar(data) {
+		const url = "/user/update-avatar";
+		const response = await axiosClient.post(url, data);
+		return response;
+	},
 };
 
 export default userApi;

@@ -10,6 +10,7 @@ import {
 	DialogTitle,
 	Grid,
 	InputAdornment,
+	MenuItem,
 	SvgIcon,
 	TextField,
 	Typography
@@ -36,7 +37,7 @@ export const CustomerListToolbar = (props) => {
 			phone: '',
 			organization: '',
 			address: '',
-			role: '',
+			role: 'USER',
 			first_name: '',
 			last_name: ''
 		},
@@ -241,7 +242,7 @@ export const CustomerListToolbar = (props) => {
 							  />
 						  </Grid>
 						  <Grid item md={6}>
-							  <TextField
+							<TextField
 								error={Boolean(formik.touched.role && formik.errors.role)}
 								fullWidth
 								helperText={formik.touched.role && formik.errors.role}
@@ -252,7 +253,12 @@ export const CustomerListToolbar = (props) => {
 								onChange={formik.handleChange}
 								value={formik.values.role}
 								variant="outlined"
-							  />
+								select
+							>
+								<MenuItem value="USER">Người dùng</MenuItem>
+								<MenuItem value="ADMIN">Quản trị viên</MenuItem>
+							</TextField>
+					
 						  </Grid>
 					  </Grid>
 				  </DialogContent>
