@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { Box, Container } from '@mui/material';
-import { CustomerListResults } from '../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
-import { DashboardLayout } from '../components/dashboard-layout';
-import userApi from 'src/api/userApi';
-import Loading from 'src/components/Loading/Loading';
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { Box, Container } from "@mui/material";
+import { CustomerListResults } from "../components/customer/customer-list-results";
+import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
+import { DashboardLayout } from "../components/dashboard-layout";
+import userApi from "src/api/userApi";
+import Loading from "src/components/Loading/Loading";
 
 // export async function getServerSideProps(ctx) {
 // 	const data = {
@@ -41,14 +41,11 @@ const Customers = (props) => {
 					setData(res.data);
 					setIsLoading(false);
 				}
-
 			} catch (err) {
 				console.log(err);
 				setIsLoading(false);
 			}
-
 		})();
-
 	}, [page, size]);
 
 	const handleChangePage = async (e, page) => {
@@ -60,34 +57,34 @@ const Customers = (props) => {
 	};
 
 	return (
-	  <>
-		  <Head>
-			  <title>Customers | Material Kit</title>
-		  </Head>
-		  {isLoading && <Loading/>}
-		  <Box
-			component="main"
-			sx={{
-				flexGrow: 1,
-				py: 8
-			}}
-		  >
-			  <Container maxWidth={false}>
-				  <CustomerListToolbar/>
-				  <Box sx={{ mt: 3 }}>
-					  {data && (
-						<CustomerListResults
-						  data={data}
-						  page={page}
-						  size={size}
-						  handleChangePage={handleChangePage}
-						  handleChangeRowsPerPage={handleChangeRowsPerPage}
-						/>
-					  )}
-				  </Box>
-			  </Container>
-		  </Box>
-	  </>
+		<>
+			<Head>
+				<title>Customers | VTSign</title>
+			</Head>
+			{isLoading && <Loading />}
+			<Box
+				component="main"
+				sx={{
+					flexGrow: 1,
+					py: 8,
+				}}
+			>
+				<Container maxWidth={false}>
+					<CustomerListToolbar />
+					<Box sx={{ mt: 3 }}>
+						{data && (
+							<CustomerListResults
+								data={data}
+								page={page}
+								size={size}
+								handleChangePage={handleChangePage}
+								handleChangeRowsPerPage={handleChangeRowsPerPage}
+							/>
+						)}
+					</Box>
+				</Container>
+			</Box>
+		</>
 	);
 };
 

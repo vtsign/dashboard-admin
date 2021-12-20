@@ -73,7 +73,7 @@ export const Sales = (props) => {
 	  <Card>
 		  <CardHeader
 			action={(
-			  <FormControl>
+			  <FormControl style={{ minWidth: "200px", float: "right" }}>
 				  <InputLabel id="demo-simple-select-label">Chọn thời gian</InputLabel>
 				  <Select
 					labelId="demo-simple-select-label"
