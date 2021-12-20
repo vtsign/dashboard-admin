@@ -1,8 +1,44 @@
 import axiosClient from './axiosClient';
 
 const userApi = {
-	async getUsers(page, size) {
-		const url = `/user/management/list?page=${page}&pageSize=${size}`;
+	async getUsers(query) {
+		const keys = Object.keys(query);
+		let params = keys.reduce((acc, key) => {
+			const value = query[key];
+			if (value) {
+				return `${acc}&${key}=${value}`;
+			}
+			return acc;
+		}, '');
+		params = params.slice(1);
+		const url = `/user/management/list?${params}`;
+		return axiosClient.get(url);
+	},
+	async getBlockedUsers(query) {
+		const keys = Object.keys(query);
+		let params = keys.reduce((acc, key) => {
+			const value = query[key];
+			if (value) {
+				return `${acc}&${key}=${value}`;
+			}
+			return acc;
+		}, '');
+		params = params.slice(1);
+		const url = `/user/management/list-block?${params}`;
+
+		return axiosClient.get(url);
+	},
+	async getDeletedUsers(query) {
+		const keys = Object.keys(query);
+		let params = keys.reduce((acc, key) => {
+			const value = query[key];
+			if (value) {
+				return `${acc}&${key}=${value}`;
+			}
+			return acc;
+		}, '');
+		params = params.slice(1);
+		const url = `/user/management/list-deleted?${params}`;
 
 		return axiosClient.get(url);
 	},
