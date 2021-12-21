@@ -92,7 +92,7 @@ export const CustomerListToolbar = (props) => {
 						variant="contained"
 						onClick={() => setOpenAddCustomerDialog(true)}
 					>
-						Add Customers
+						Thêm người dùng
 					</Button>
 				</Box>
 			</Box>

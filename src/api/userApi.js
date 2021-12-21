@@ -42,12 +42,17 @@ const userApi = {
 
 		return axiosClient.get(url);
 	},
+	async getUser(id) {
+		const url = `/user/management/customer/${id}`;
+
+		return axiosClient.get(url);
+	},
 	async createUser(data) {
 		const url = `/user/management/create-user`;
 
 		return axiosClient.post(url, data);
 	},
-	async updateUser(data, id) {
+	async updateUser(id, data) {
 		const url = `/user/management/update-user/${id}`;
 
 		return axiosClient.post(url, data);
@@ -67,6 +72,26 @@ const userApi = {
 
 		const data = {
 			status: true,
+			id
+		};
+
+		return axiosClient.put(url, data);
+	},
+	async restoreUser(id) {
+		const url = `/user/management/delete-user`;
+
+		const data = {
+			status: false,
+			id
+		};
+
+		return axiosClient.delete(url, { data });
+	},
+	async unblockUser(id) {
+		const url = `/user/management/block-user`;
+
+		const data = {
+			status: false,
 			id
 		};
 

@@ -13,17 +13,17 @@ const items = [
 	{
 		href: "/",
 		icon: <ChartBarIcon fontSize="small" />,
-		title: "Dashboard",
+		title: "Thống kê",
 	},
 	{
 		href: "/customers",
 		icon: <UsersIcon fontSize="small" />,
-		title: "Customers",
+		title: "Người dùng",
 	},
 	{
 		href: "/account",
 		icon: <UserIcon fontSize="small" />,
-		title: "Account",
+		title: "Thông tin tài khoản",
 	},
 ];
 
@@ -92,7 +92,7 @@ export const DashboardSidebar = (props) => {
 					))}
 					<NavItem
 						icon={<LogoutIcon fontSize="small" />}
-						title="Logout"
+						title="Đăng xuất"
 						href="#"
 						onClick={handleLogout}
 					/>
