@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
+	Avatar,
 	Card,
 	CardHeader,
 	CardContent,
@@ -13,14 +14,26 @@ import {
 	Typography,
 	TextField,
 	InputLabel,
+	MenuItem,
 } from "@mui/material";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import UserAvatar from "../../components/Profiles/UserAvatar";
 import UserProfileDetails from "../../components/Profiles/UserProfileDetails";
 import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useToast } from "src/components/toast/useToast";
+
+const roles = [
+	{
+		label: "Người dùng",
+		value: "USER",
+	},
+	{
+		label: "Quản trị viên",
+		value: "ADMIN",
+	},
+];
 
 export async function getServerSideProps(ctx) {
 	let query = ctx.query;
@@ -42,6 +55,7 @@ const EditCustomer = (props) => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		control,
 	} = useForm();
 
 	useEffect(() => {
@@ -87,7 +101,45 @@ const EditCustomer = (props) => {
 				{isLoading && <Loading />}
 				{!isLoading && userInfo && (
 					<Container maxWidth="lg">
-						<Grid container className="profile__container" style={{ display: "flex", justifyContent: "center"}}>
+						<Grid
+							container
+							className="profile__container"
+							style={{ display: "flex", justifyContent: "center" }}
+							spacing={3}
+						>
+							<Grid item lg={4}>
+								<Card>
+									<CardContent>
+										<Box
+											sx={{
+												alignItems: "center",
+												display: "flex",
+												flexDirection: "column",
+											}}
+										>
+											<Avatar
+												src={userInfo.avatar}
+												sx={{
+													height: 128,
+													mb: 2,
+													width: 128,
+												}}
+											/>
+
+											<Typography
+												color="textPrimary"
+												gutterBottom
+												variant="h5"
+											>
+												{userInfo.first_name} {userInfo.last_name}
+											</Typography>
+											<Typography color="textSecondary" variant="body2">
+												{userInfo.email}
+											</Typography>
+										</Box>
+									</CardContent>
+								</Card>
+							</Grid>
 							<Grid item lg={8} md={6} xs={12}>
 								<Card>
 									<CardHeader
@@ -155,16 +207,9 @@ const EditCustomer = (props) => {
 													fullWidth
 													placeholder="Nhập số điện thoại"
 													defaultValue={userInfo.phone}
-													{...register("phone", {
-														required: "Vui lòng nhập số điện thoại",
-														pattern: {
-															value: /(0)+([0-9]{0,13})\b/,
-															message:
-																"Số điện thoại phải là số và bắt đầu là 0 hoặc +",
-														},
-													})}
-													error={!!errors.phone}
-													helperText={errors?.phone?.message}
+													inputProps={{
+														readOnly: true,
+													}}
 												/>
 											</Grid>
 											<Grid item md={6} xs={12}>
@@ -197,6 +242,60 @@ const EditCustomer = (props) => {
 													})}
 													error={!!errors.address}
 													helperText={errors?.address?.message}
+												/>
+											</Grid>
+											<Grid item md={6} xs={12}>
+												<InputLabel>
+													Trạng thái{" "}
+													<span style={{ color: "red" }}>*</span>
+												</InputLabel>
+												<TextField
+													name="organization"
+													fullWidth
+													value={userInfo.blocked ? "Đã bị chặn" : userInfo.deleted ? "Đã bị xóa" : "Đang hoạt động"}
+													// placeholder="Nhập cơ quan"
+													// defaultValue={userInfo.organization}
+													// {...register("organization", {
+													// 	required: "Vui lòng nhập cơ quan",
+													// })}
+													// error={!!errors.organization}
+													// helperText={errors?.organization?.message}
+												/>
+											</Grid>
+											<Grid item md={6} xs={12}>
+												<InputLabel>
+													Vai trò
+													<span style={{ color: "red" }}>*</span>
+												</InputLabel>
+												<Controller
+													name="roles"
+													control={control}
+													render={({ ref, value, ...inputProps }) => (
+														<TextField
+															select
+															fullWidth
+															variant="outlined"
+															// size="small"
+															{...inputProps}
+															inputRef={ref}
+															value={value}
+															SelectProps={{
+																displayEmpty: true,
+															}}
+															defaultValue={"USER"}
+														>
+															{roles.map(({ value, label }) => {
+																return (
+																	<MenuItem
+																		key={value}
+																		value={value}
+																	>
+																		{label}
+																	</MenuItem>
+																);
+															})}
+														</TextField>
+													)}
 												/>
 											</Grid>
 										</Grid>

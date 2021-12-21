@@ -195,8 +195,8 @@ export const CustomerListResults = ({
 															overflow: "hidden",
 														}}
 													> */}
-														{item.address}
-													{/* </div>
+												{item.address}
+												{/* </div>
 												</Tooltip> */}
 											</TableCell>
 											{/* <TableCell>{item.address}</TableCell> */}
@@ -204,12 +204,6 @@ export const CustomerListResults = ({
 											<TableCell>{item.organization}</TableCell>
 											{status === "deleted" ? (
 												<TableCell align="center">
-													<IconButton
-														style={{ color: "rgb(52,152,219)" }}
-														onClick={() => handleEditCustomer(item)}
-													>
-														<Edit />
-													</IconButton>
 													<IconButton
 														style={{ color: "green" }}
 														onClick={() => {
@@ -236,6 +230,15 @@ export const CustomerListResults = ({
 														}}
 													>
 														<LockOpen />
+													</IconButton>
+													<IconButton
+														style={{ color: "rgb(76,175,80)" }}
+														onClick={() => {
+															setOpenDeleteDialog(true);
+															setSelectedCustomer(item);
+														}}
+													>
+														<Delete />
 													</IconButton>
 												</TableCell>
 											) : (

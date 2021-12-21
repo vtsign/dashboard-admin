@@ -15,13 +15,13 @@ const listStatus = [
 		total: 0,
 	},
 	{
-		label: "Đã bị xóa",
-		value: "deleted",
+		label: "Đã bị chặn",
+		value: "blocked",
 		total: 0,
 	},
 	{
-		label: "Đã bị chặn",
-		value: "blocked",
+		label: "Đã bị xóa",
+		value: "deleted",
 		total: 0,
 	},
 ];
@@ -42,18 +42,18 @@ const Customers = (props) => {
 				setIsLoading(true);
 				const { data: allUsers } = await userApi.getUsers({ page, size, keyword: search });
 				listStatus[0].total = allUsers.total_elements;
-				const { data: deletedUsers } = await userApi.getDeletedUsers({
-					page,
-					size,
-					keyword: search,
-				});
-				listStatus[1].total = deletedUsers.total_elements;
 				const { data: blockedUsers } = await userApi.getBlockedUsers({
 					page,
 					size,
 					keyword: search,
 				});
-				listStatus[2].total = blockedUsers.total_elements;
+				listStatus[1].total = blockedUsers.total_elements;
+				const { data: deletedUsers } = await userApi.getDeletedUsers({
+					page,
+					size,
+					keyword: search,
+				});
+				listStatus[2].total = deletedUsers.total_elements;
 				if (status === "deleted") {
 					setData(deletedUsers);
 					setIsLoading(false);
