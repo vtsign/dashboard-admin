@@ -40,17 +40,17 @@ const Customers = (props) => {
 		(async () => {
 			try {
 				setIsLoading(true);
-				const { data: allUsers } = await userApi.getUsers({ page, size, keyword: search });
+				const { data: allUsers } = await userApi.getUsers({ page, pageSize: size, keyword: search });
 				listStatus[0].total = allUsers.total_elements;
 				const { data: blockedUsers } = await userApi.getBlockedUsers({
 					page,
-					size,
+					pageSize: size,
 					keyword: search,
 				});
 				listStatus[1].total = blockedUsers.total_elements;
 				const { data: deletedUsers } = await userApi.getDeletedUsers({
 					page,
-					size,
+					pageSize: size,
 					keyword: search,
 				});
 				listStatus[2].total = deletedUsers.total_elements;
@@ -71,7 +71,7 @@ const Customers = (props) => {
 				setIsLoading(false);
 			}
 		})();
-	}, [page, size, status]);
+	}, [page, size, status, search]);
 
 	const handleChangePage = async (e, page) => {
 		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}`);
