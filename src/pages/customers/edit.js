@@ -23,6 +23,7 @@ import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
 import { useForm, Controller } from "react-hook-form";
 import { useToast } from "src/components/toast/useToast";
+import { formatNumber } from "src/components/global";
 
 const roles = [
 	{
@@ -135,6 +136,9 @@ const EditCustomer = (props) => {
 											</Typography>
 											<Typography color="textSecondary" variant="body2">
 												{userInfo.email}
+											</Typography>
+											<Typography color="textSecondary" variant="body2">
+												Số dư {formatNumber(userInfo.balance)} đ
 											</Typography>
 										</Box>
 									</CardContent>

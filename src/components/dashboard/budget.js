@@ -1,5 +1,6 @@
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import MoneyIcon from '@mui/icons-material/Money';
+import { formatNumber } from '../global';
 
 export const Budget = (props) => (
   <Card
@@ -35,7 +36,7 @@ export const Budget = (props) => (
 					color="textPrimary"
 					variant="h4"
 				  >
-					  {props.formatNumber(props.totalDeposit)}{' đ'}
+					  {formatNumber(props.totalDeposit)}{' đ'}
 				  </Typography>
 			  </Grid>
 		  </Grid>

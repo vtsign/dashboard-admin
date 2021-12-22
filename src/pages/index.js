@@ -144,11 +144,6 @@ const Dashboard = () => {
 		})();
 	}, [contractType]);
 
-	const formatNumber = (num) => {
-		num = Math.round((num ?? 0) * 10 + Number.EPSILON) / 10;
-		return num?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-	};
-
 	const handleChangeFilterQuickView = (event) => {
 		setType(event.target.value);
 	};
@@ -156,7 +151,7 @@ const Dashboard = () => {
 	return (
 		<>
 			<Head>
-				<title>Dashboard | VTSign</title>
+				<title>Thống kê | VTSign</title>
 			</Head>
 			<Box
 				component="main"
@@ -186,7 +181,6 @@ const Dashboard = () => {
 						<Grid item lg={4} sm={6} xl={4} xs={12}>
 							<Budget
 								totalDeposit={dataQuickView.totalDeposit}
-								formatNumber={formatNumber}
 							/>
 						</Grid>
 						<Grid item xl={4} lg={4} sm={6} xs={12}>

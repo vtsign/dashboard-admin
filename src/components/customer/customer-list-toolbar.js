@@ -71,6 +71,14 @@ export const CustomerListToolbar = (props) => {
 			}
 		},
 	});
+
+	const handleEnterSearch = (e) => {
+		if(e.keyCode === 13) {
+
+			console.log(e)
+			props.handleSearch(e);
+		}
+	}
 	return (
 		<Box {...props}>
 			{isLoading && <Loading />}
@@ -104,7 +112,11 @@ export const CustomerListToolbar = (props) => {
 								fullWidth
 								InputProps={{
 									startAdornment: (
-										<InputAdornment position="start">
+										<InputAdornment
+											position="start"
+											style={{ cursor: "pointer" }}
+											onClick={() => console.log("abc")}
+										>
 											<SvgIcon color="action" fontSize="small">
 												<SearchIcon />
 											</SvgIcon>
@@ -113,7 +125,8 @@ export const CustomerListToolbar = (props) => {
 								}}
 								placeholder="Tìm kiếm người dùng"
 								variant="outlined"
-								onChange={props.handleSearch}
+								// onChange={props.handleSearch}
+								onKeyDown={handleEnterSearch}
 							/>
 						</Box>
 					</CardContent>
