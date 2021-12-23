@@ -48,7 +48,7 @@ export async function getServerSideProps(ctx) {
 const EditCustomer = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [userInfo, setUserInfo] = useState(null);
-	const [role, setRoles] = useState();
+	const [role, setRoles] = useState(userInfo ? userInfo?.roles?.[0]?.name : "USER");
 
 	const router = useRouter();
 	const { success, error } = useToast();
