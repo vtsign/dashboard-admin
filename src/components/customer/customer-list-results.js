@@ -165,9 +165,30 @@ export const CustomerListResults = ({
 							<Table>
 								<TableHead>
 									<TableRow>
-										<TableCell>Tên</TableCell>
-										<TableCell onClick={handleSort}>
-											<Box style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+										<TableCell onClick={() => handleSort("firstName")}>
+											<Box
+												style={{
+													display: "flex",
+													alignItems: "center",
+													cursor: "pointer",
+												}}
+											>
+												<p>Tên</p>
+												{sortType === "asc" ? (
+													<KeyboardArrowDown />
+												) : (
+													<KeyboardArrowUp />
+												)}
+											</Box>{" "}
+										</TableCell>
+										<TableCell onClick={() => handleSort("email")}>
+											<Box
+												style={{
+													display: "flex",
+													alignItems: "center",
+													cursor: "pointer",
+												}}
+											>
 												<p>Email</p>
 												{sortType === "asc" ? (
 													<KeyboardArrowDown />
@@ -176,9 +197,54 @@ export const CustomerListResults = ({
 												)}
 											</Box>{" "}
 										</TableCell>
-										<TableCell>Địa chỉ</TableCell>
-										<TableCell>Số điện thoại</TableCell>
-										<TableCell>Cơ quan</TableCell>
+										<TableCell onClick={() => handleSort("address")}>
+											<Box
+												style={{
+													display: "flex",
+													alignItems: "center",
+													cursor: "pointer",
+												}}
+											>
+												<p>Địa chỉ</p>
+												{sortType === "asc" ? (
+													<KeyboardArrowDown />
+												) : (
+													<KeyboardArrowUp />
+												)}
+											</Box>{" "}
+										</TableCell>
+										<TableCell onClick={() => handleSort("phone")}>
+											<Box
+												style={{
+													display: "flex",
+													alignItems: "center",
+													cursor: "pointer",
+												}}
+											>
+												<p>Số điện thoại</p>
+												{sortType === "asc" ? (
+													<KeyboardArrowDown />
+												) : (
+													<KeyboardArrowUp />
+												)}
+											</Box>{" "}
+										</TableCell>
+										<TableCell onClick={() => handleSort("organization")}>
+											<Box
+												style={{
+													display: "flex",
+													alignItems: "center",
+													cursor: "pointer",
+												}}
+											>
+												<p>Cơ quan</p>
+												{sortType === "asc" ? (
+													<KeyboardArrowDown />
+												) : (
+													<KeyboardArrowUp />
+												)}
+											</Box>{" "}
+										</TableCell>
 										<TableCell align="center">Thao tác</TableCell>
 									</TableRow>
 								</TableHead>

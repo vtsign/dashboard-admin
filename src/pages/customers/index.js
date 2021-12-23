@@ -40,7 +40,9 @@ const Customers = (props) => {
 	const size = parseInt(router.query.size) || 5;
 	const status = router.query.status || "";
 	const search = router.query.search || "";
+	const sortField = router.query.sortField ?? "";
 	const sortType = router.query.sortType ?? "asc";
+
 	useEffect(() => {
 		(async () => {
 			try {
@@ -49,7 +51,7 @@ const Customers = (props) => {
 					page,
 					pageSize: size,
 					keyword: search,
-					sortField: "email",
+					sortField,
 					sortType: sortType
 				});
 				listStatus[0].total = allUsers.total_elements;
@@ -57,7 +59,7 @@ const Customers = (props) => {
 					page,
 					pageSize: size,
 					keyword: search,
-					sortField: "email",
+					sortField,
 					sortType: sortType,
 				});
 				listStatus[1].total = blockedUsers.total_elements;
@@ -65,7 +67,7 @@ const Customers = (props) => {
 					page,
 					pageSize: size,
 					keyword: search,
-					sortField: "email",
+					sortField,
 					sortType: sortType,
 				});
 				listStatus[2].total = deletedUsers.total_elements;
@@ -112,12 +114,12 @@ const Customers = (props) => {
 		);
 	};
 
-	const handleSort = (event) => {
+	const handleSort = (field) => {
 		let type = "asc";
 		if(sortType === "asc")
 			type = "desc";
 		router.push(
-			`/customers?page=${page}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${type}`
+			`/customers?page=${page}&size=${size}&status=${status}&search=${search}&sortField=${field}&sortType=${type}`
 		);
 
 	}
