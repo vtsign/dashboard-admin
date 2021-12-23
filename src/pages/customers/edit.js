@@ -25,7 +25,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useToast } from "src/components/toast/useToast";
 import { formatNumber } from "src/components/global";
 
-const roles = [
+const roleList = [
 	{
 		label: "Người dùng",
 		value: "USER",
@@ -48,6 +48,7 @@ export async function getServerSideProps(ctx) {
 const EditCustomer = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [userInfo, setUserInfo] = useState(null);
+	const [role, setRoles] = useState();
 
 	const router = useRouter();
 	const { success, error } = useToast();
@@ -57,6 +58,8 @@ const EditCustomer = (props) => {
 		handleSubmit,
 		formState: { errors },
 		control,
+		getValues,
+		setValue
 	} = useForm();
 
 	useEffect(() => {
@@ -64,13 +67,12 @@ const EditCustomer = (props) => {
 		(async () => {
 			try {
 				const response = await userApi.getUser(props.id);
-				console.log(response);
 				if (response.status === 200) {
 					setUserInfo(response.data);
 					setIsLoading(false);
 				}
 			} catch (err) {
-				console.log(err);
+				error(err.toString() || "Đã có lỗi xảy ra");
 				setIsLoading(false);
 			}
 		})();
@@ -78,6 +80,8 @@ const EditCustomer = (props) => {
 
 	const onSubmitChange = async (formData) => {
 		console.log(formData);
+		formData.role = role;
+		// console.log(roles)
 		try {
 			await userApi.updateUser(props.id, formData);
 			success("Cập nhật tài khoản thành công");
@@ -257,13 +261,6 @@ const EditCustomer = (props) => {
 													name="organization"
 													fullWidth
 													value={userInfo.blocked ? "Đã bị chặn" : userInfo.deleted ? "Đã bị xóa" : "Đang hoạt động"}
-													// placeholder="Nhập cơ quan"
-													// defaultValue={userInfo.organization}
-													// {...register("organization", {
-													// 	required: "Vui lòng nhập cơ quan",
-													// })}
-													// error={!!errors.organization}
-													// helperText={errors?.organization?.message}
 												/>
 											</Grid>
 											<Grid item md={6} xs={12}>
@@ -280,15 +277,16 @@ const EditCustomer = (props) => {
 															fullWidth
 															variant="outlined"
 															// size="small"
+															onChange={e => setRoles(e.target.value)}
 															{...inputProps}
 															inputRef={ref}
 															value={value}
 															SelectProps={{
 																displayEmpty: true,
 															}}
-															defaultValue={"USER"}
+															defaultValue={userInfo?.roles?.[0]?.name ?? "USER"}
 														>
-															{roles.map(({ value, label }) => {
+															{roleList.map(({ value, label }) => {
 																return (
 																	<MenuItem
 																		key={value}

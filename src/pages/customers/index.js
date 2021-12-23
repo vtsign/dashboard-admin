@@ -7,6 +7,8 @@ import { CustomerListToolbar } from "../../components/customer/customer-list-too
 import { DashboardLayout } from "../../components/dashboard-layout";
 import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
+
 
 const listStatus = [
 	{
@@ -28,30 +30,43 @@ const listStatus = [
 
 const Customers = (props) => {
 	const didMount = useRef(false);
-	const [search, setSearch] = useState("");
+	// const [search, setSearch] = useState("");
 	const [data, setData] = useState();
 	const [isLoading, setIsLoading] = useState(false);
+	const [ascending, setAscending] = useState(true);
 
 	const router = useRouter();
 	const page = parseInt(router.query.page) || 1;
 	const size = parseInt(router.query.size) || 5;
 	const status = router.query.status || "";
+	const search = router.query.search || "";
+	const sortType = router.query.sortType ?? "asc";
 	useEffect(() => {
 		(async () => {
 			try {
 				setIsLoading(true);
-				const { data: allUsers } = await userApi.getUsers({ page, pageSize: size, keyword: search });
+				const { data: allUsers } = await userApi.getUsers({
+					page,
+					pageSize: size,
+					keyword: search,
+					sortField: "email",
+					sortType: sortType
+				});
 				listStatus[0].total = allUsers.total_elements;
 				const { data: blockedUsers } = await userApi.getBlockedUsers({
 					page,
 					pageSize: size,
 					keyword: search,
+					sortField: "email",
+					sortType: sortType,
 				});
 				listStatus[1].total = blockedUsers.total_elements;
 				const { data: deletedUsers } = await userApi.getDeletedUsers({
 					page,
 					pageSize: size,
 					keyword: search,
+					sortField: "email",
+					sortType: sortType,
 				});
 				listStatus[2].total = deletedUsers.total_elements;
 				if (status === "deleted") {
@@ -71,34 +86,41 @@ const Customers = (props) => {
 				setIsLoading(false);
 			}
 		})();
-	}, [page, size, status, search]);
+	}, [page, size, status, search, sortType]);
 
 	const handleChangePage = async (e, page) => {
-		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}`);
+		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`);
 	};
 
 	const handleChangeRowsPerPage = async (e, rows) => {
-		router.push(`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}`);
+		router.push(
+			`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`
+		);
 	};
 
 	const handleChangeTab = (e, status) => {
-		router.push(`customers?page=${1}&size=${size}&status=${status}&search=${search}`);
+		router.push(
+			`customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`
+		);
 	};
-
-	useEffect(() => {
-		let timer;
-		if (didMount.current) {
-			timer = setTimeout(async () => {
-				const res = await userApi.getUsers({ page, size, keyword: search });
-				setData(res.data);
-			}, 500);
-		} else didMount.current = true;
-		return () => clearTimeout(timer);
-	}, [search]);
 
 	const handleSearch = (event) => {
-		setSearch(event.target.value);
+		router.push(
+			`/customers?page=${1}&size=${size}&status=${status}&search=${
+				event.target.value
+			}&sortField=Email&sortType=${sortType}`
+		);
 	};
+
+	const handleSort = (event) => {
+		let type = "asc";
+		if(sortType === "asc")
+			type = "desc";
+		router.push(
+			`/customers?page=${page}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${type}`
+		);
+
+	}
 
 	return (
 		<>
@@ -123,9 +145,13 @@ const Customers = (props) => {
 								page={page}
 								size={size}
 								status={status}
+								sortType={sortType}
+								ascending={ascending}
+								setAscending={setAscending}
 								handleChangeTab={handleChangeTab}
 								handleChangePage={handleChangePage}
 								handleChangeRowsPerPage={handleChangeRowsPerPage}
+								handleSort={handleSort}
 							/>
 						)}
 					</Box>

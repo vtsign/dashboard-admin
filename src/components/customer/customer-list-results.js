@@ -24,7 +24,7 @@ import {
 	Tooltip,
 	Paper
 } from '@mui/material';
-import { Block, Delete, Edit, LockOpen, Restore } from '@mui/icons-material';
+import { Block, Delete, Edit, LockOpen, Restore, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import userApi from 'src/api/userApi';
 import { useToast } from '../toast/useToast';
@@ -37,9 +37,13 @@ export const CustomerListResults = ({
 	page,
 	size,
 	status,
+	sortType,
+	ascending,
+	setAscending,
 	handleChangePage,
 	handleChangeRowsPerPage,
 	handleChangeTab,
+	handleSort,
 	...rest
 }) => {
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -107,6 +111,10 @@ export const CustomerListResults = ({
 		}
 	}
 
+	// const handleSortEmail = () => {
+
+	// }
+
 	const handleUnblockCustomer = async (customer) => {
 		setIsLoading(true);
 		try {
@@ -158,7 +166,16 @@ export const CustomerListResults = ({
 								<TableHead>
 									<TableRow>
 										<TableCell>Tên</TableCell>
-										<TableCell>Email</TableCell>
+										<TableCell onClick={handleSort}>
+											<Box style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+												<p>Email</p>
+												{sortType === "asc" ? (
+													<KeyboardArrowDown />
+												) : (
+													<KeyboardArrowUp />
+												)}
+											</Box>{" "}
+										</TableCell>
 										<TableCell>Địa chỉ</TableCell>
 										<TableCell>Số điện thoại</TableCell>
 										<TableCell>Cơ quan</TableCell>
