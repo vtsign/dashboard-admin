@@ -106,11 +106,9 @@ const Customers = (props) => {
 		);
 	};
 
-	const handleSearch = (event) => {
+	const handleSearch = (search) => {
 		router.push(
-			`/customers?page=${1}&size=${size}&status=${status}&search=${
-				event.target.value
-			}&sortField=${sortField}&sortType=${sortType}`
+			`/customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
 		);
 	};
 

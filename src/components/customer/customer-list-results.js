@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import PropTypes from "prop-types";
 import {
 	Avatar,
 	Box,
@@ -22,13 +22,21 @@ import {
 	Tabs,
 	Tab,
 	Tooltip,
-	Paper
-} from '@mui/material';
-import { Block, Delete, Edit, LockOpen, Restore, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { useRouter } from 'next/router';
-import userApi from 'src/api/userApi';
-import { useToast } from '../toast/useToast';
-import Loading from '../Loading/Loading';
+	Paper,
+} from "@mui/material";
+import {
+	Block,
+	Delete,
+	Edit,
+	LockOpen,
+	Restore,
+	KeyboardArrowDown,
+	KeyboardArrowUp,
+} from "@mui/icons-material";
+import { useRouter } from "next/router";
+import userApi from "src/api/userApi";
+import { useToast } from "../toast/useToast";
+import Loading from "../Loading/Loading";
 
 export const CustomerListResults = ({
 	listStatus,
@@ -66,14 +74,14 @@ export const CustomerListResults = ({
 			const response = await userApi.deleteUser(customer.id);
 			if (response.status >= 200 && response.status < 300) {
 				setSelectedCustomer(null);
-				success('Xóa người dùng thành công');
+				success("Xóa người dùng thành công");
 				setOpenDeleteDialog(false);
 				setIsLoading(false);
 				router.reload();
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error('Đã có lỗi xảy ra');
+			error("Đã có lỗi xảy ra");
 		}
 	};
 
@@ -83,14 +91,14 @@ export const CustomerListResults = ({
 			const response = await userApi.blockUser(customer.id);
 			if (response.status >= 200 && response.status < 300) {
 				setSelectedCustomer(null);
-				success('Chặn người dùng thành công');
+				success("Chặn người dùng thành công");
 				setOpenBlockDialog(false);
 				setIsLoading(false);
 				router.reload();
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error('Đã có lỗi xảy ra');
+			error("Đã có lỗi xảy ra");
 		}
 	};
 
@@ -109,7 +117,7 @@ export const CustomerListResults = ({
 			setIsLoading(false);
 			error("Đã có lỗi xảy ra");
 		}
-	}
+	};
 
 	// const handleSortEmail = () => {
 
@@ -130,16 +138,16 @@ export const CustomerListResults = ({
 			setIsLoading(false);
 			error("Đã có lỗi xảy ra");
 		}
-	}
+	};
 
 	function displayLabel(data) {
 		data.from = data.page * parseInt(size) + 1;
 		data.to = data.from + parseInt(size) - 1;
 		return (
 			<span>
-				từ <b>{Math.min(data.from, data.count)}</b>{" "}
-				đến <b>{Math.min(data.to, data.count)}</b> trong <b>{data.count}</b>{" người dùng"}
-
+				từ <b>{Math.min(data.from, data.count)}</b> đến{" "}
+				<b>{Math.min(data.to, data.count)}</b> trong <b>{data.count}</b>
+				{" người dùng"}
 			</span>
 		);
 	}
@@ -248,113 +256,112 @@ export const CustomerListResults = ({
 										<TableCell align="center">Thao tác</TableCell>
 									</TableRow>
 								</TableHead>
-								<TableBody>
-									{data.list.map((item) => (
-										<TableRow hover key={item.id}>
-											<TableCell>
-												<Box
-													sx={{
-														alignItems: "center",
-														display: "flex",
-													}}
-												>
-													<Avatar src={item.avatar} sx={{ mr: 2 }}>
-														{/* {getInitials(customer.name)} */}
-													</Avatar>
-													<Typography color="textPrimary" variant="body1">
-														{item.first_name} {item.last_name}
-													</Typography>
-												</Box>
+								{data && data.list.length > 0 ? (
+									<TableBody>
+										{data.list.map((item) => (
+											<TableRow hover key={item.id}>
+												<TableCell>
+													<Box
+														sx={{
+															alignItems: "center",
+															display: "flex",
+														}}
+													>
+														<Avatar
+															src={item.avatar}
+															sx={{ mr: 2 }}
+														></Avatar>
+														<Typography
+															color="textPrimary"
+															variant="body1"
+														>
+															{item.first_name} {item.last_name}
+														</Typography>
+													</Box>
+												</TableCell>
+												<TableCell>{item.email}</TableCell>
+												<TableCell>{item.address}</TableCell>
+												<TableCell>{item.phone}</TableCell>
+												<TableCell>{item.organization}</TableCell>
+												{status === "deleted" ? (
+													<TableCell align="center">
+														<IconButton
+															style={{ color: "green" }}
+															onClick={() => {
+																setOpenRestoreDialog(true);
+																setSelectedCustomer(item);
+															}}
+														>
+															<Restore />
+														</IconButton>
+													</TableCell>
+												) : status === "blocked" ? (
+													<TableCell align="center">
+														<IconButton
+															style={{ color: "rgb(52,152,219)" }}
+															onClick={() => handleEditCustomer(item)}
+														>
+															<Edit />
+														</IconButton>
+														<IconButton
+															style={{ color: "green" }}
+															onClick={() => {
+																setOpenUnblockDialog(true);
+																setSelectedCustomer(item);
+															}}
+														>
+															<LockOpen />
+														</IconButton>
+														<IconButton
+															style={{ color: "rgb(76,175,80)" }}
+															onClick={() => {
+																setOpenDeleteDialog(true);
+																setSelectedCustomer(item);
+															}}
+														>
+															<Delete />
+														</IconButton>
+													</TableCell>
+												) : (
+													<TableCell align="center">
+														<IconButton
+															style={{ color: "rgb(52,152,219)" }}
+															onClick={() => handleEditCustomer(item)}
+														>
+															<Edit />
+														</IconButton>
+														<IconButton
+															style={{ color: "red" }}
+															onClick={() => {
+																setOpenBlockDialog(true);
+																setSelectedCustomer(item);
+															}}
+														>
+															<Block />
+														</IconButton>
+														<IconButton
+															style={{ color: "rgb(76,175,80)" }}
+															onClick={() => {
+																setOpenDeleteDialog(true);
+																setSelectedCustomer(item);
+															}}
+														>
+															<Delete />
+														</IconButton>
+													</TableCell>
+												)}
+											</TableRow>
+										))}
+									</TableBody>
+								) : (
+									<TableBody>
+										<TableRow>
+											<TableCell colSpan={3}>
+												Không tìm thấy dữ liệu phù hợp
 											</TableCell>
-											<TableCell>{item.email}</TableCell>
-											<TableCell>
-												{/* <Tooltip title={item.address}>
-													<div
-														style={{
-															whiteSpace: "nowrap",
-															textOverflow: "ellipsis",
-															width: "100px",
-															display: "block",
-															overflow: "hidden",
-														}}
-													> */}
-												{item.address}
-												{/* </div>
-												</Tooltip> */}
-											</TableCell>
-											{/* <TableCell>{item.address}</TableCell> */}
-											<TableCell>{item.phone}</TableCell>
-											<TableCell>{item.organization}</TableCell>
-											{status === "deleted" ? (
-												<TableCell align="center">
-													<IconButton
-														style={{ color: "green" }}
-														onClick={() => {
-															setOpenRestoreDialog(true);
-															setSelectedCustomer(item);
-														}}
-													>
-														<Restore />
-													</IconButton>
-												</TableCell>
-											) : status === "blocked" ? (
-												<TableCell align="center">
-													<IconButton
-														style={{ color: "rgb(52,152,219)" }}
-														onClick={() => handleEditCustomer(item)}
-													>
-														<Edit />
-													</IconButton>
-													<IconButton
-														style={{ color: "green" }}
-														onClick={() => {
-															setOpenUnblockDialog(true);
-															setSelectedCustomer(item);
-														}}
-													>
-														<LockOpen />
-													</IconButton>
-													<IconButton
-														style={{ color: "rgb(76,175,80)" }}
-														onClick={() => {
-															setOpenDeleteDialog(true);
-															setSelectedCustomer(item);
-														}}
-													>
-														<Delete />
-													</IconButton>
-												</TableCell>
-											) : (
-												<TableCell align="center">
-													<IconButton
-														style={{ color: "rgb(52,152,219)" }}
-														onClick={() => handleEditCustomer(item)}
-													>
-														<Edit />
-													</IconButton>
-													<IconButton
-														style={{ color: "red" }}
-														onClick={() => {
-															setOpenBlockDialog(true);
-															setSelectedCustomer(item);
-														}}
-													>
-														<Block />
-													</IconButton>
-													<IconButton
-														style={{ color: "rgb(76,175,80)" }}
-														onClick={() => {
-															setOpenDeleteDialog(true);
-															setSelectedCustomer(item);
-														}}
-													>
-														<Delete />
-													</IconButton>
-												</TableCell>
-											)}
 										</TableRow>
-									))}
-								</TableBody>
+									</TableBody>
+								)}
 							</Table>
 						</TableContainer>
 					</Box>
@@ -446,5 +453,5 @@ export const CustomerListResults = ({
 };
 
 CustomerListResults.propTypes = {
-	customers: PropTypes.array.isRequired
+	customers: PropTypes.array.isRequired,
 };

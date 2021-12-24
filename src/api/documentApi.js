@@ -8,6 +8,10 @@ const documentApi = {
 	statisticContract: (type) => {
 		const url = `/document/management/statistic-contract?type=${type}`;
 		return axiosClient.get(url);
+	},
+	countAllContracts(id) {
+		const url = `/document/management/count-all-contract?id=${id}`;
+		return axiosClient.get(url)
 	}
 };
 

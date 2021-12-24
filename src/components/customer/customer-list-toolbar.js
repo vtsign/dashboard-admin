@@ -15,6 +15,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import { Close } from "@mui/icons-material"
 import { Search as SearchIcon } from "../../icons/search";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -26,7 +27,7 @@ import Loading from "../Loading/Loading";
 export const CustomerListToolbar = (props) => {
 	const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	// const [search, setSearch] = useState("");
+	const [search, setSearch] = useState("");
 
 	const router = useRouter();
 	const { success, error } = useToast();
@@ -74,9 +75,7 @@ export const CustomerListToolbar = (props) => {
 
 	const handleEnterSearch = (e) => {
 		if(e.keyCode === 13) {
-
-			console.log(e)
-			props.handleSearch(e);
+			props.handleSearch(e.target.value);
 		}
 	}
 	return (
@@ -115,17 +114,31 @@ export const CustomerListToolbar = (props) => {
 										<InputAdornment
 											position="start"
 											style={{ cursor: "pointer" }}
-											onClick={() => console.log("abc")}
 										>
 											<SvgIcon color="action" fontSize="small">
 												<SearchIcon />
 											</SvgIcon>
 										</InputAdornment>
 									),
+									endAdornment: (
+										<InputAdornment
+											position="end"
+											style={{ cursor: "pointer" }}
+											onClick={(e) => {
+												props.handleSearch("");
+												setSearch("");
+											}}
+										>
+											<SvgIcon color="action" fontSize="small">
+												<Close />
+											</SvgIcon>
+										</InputAdornment>
+									),
 								}}
+								value={search}
 								placeholder="Tìm kiếm người dùng"
 								variant="outlined"
-								// onChange={props.handleSearch}
+								onChange={(e) => setSearch(e.target.value)}
 								onKeyDown={handleEnterSearch}
 							/>
 						</Box>
