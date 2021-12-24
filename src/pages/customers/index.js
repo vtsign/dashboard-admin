@@ -12,7 +12,7 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
 
 const listStatus = [
 	{
-		label: "Tất cả",
+		label: "Đang hoạt động",
 		value: "",
 		total: 0,
 	},
@@ -88,21 +88,21 @@ const Customers = (props) => {
 				setIsLoading(false);
 			}
 		})();
-	}, [page, size, status, search, sortType]);
+	}, [page, size, status, search, sortField, sortType]);
 
 	const handleChangePage = async (e, page) => {
-		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`);
+		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`);
 	};
 
 	const handleChangeRowsPerPage = async (e, rows) => {
 		router.push(
-			`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`
+			`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
 		);
 	};
 
 	const handleChangeTab = (e, status) => {
 		router.push(
-			`customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=Email&sortType=${sortType}`
+			`customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
 		);
 	};
 
