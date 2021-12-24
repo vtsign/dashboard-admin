@@ -110,7 +110,7 @@ const Customers = (props) => {
 		router.push(
 			`/customers?page=${1}&size=${size}&status=${status}&search=${
 				event.target.value
-			}&sortField=Email&sortType=${sortType}`
+			}&sortField=${sortField}&sortType=${sortType}`
 		);
 	};
 

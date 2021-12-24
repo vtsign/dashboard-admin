@@ -128,6 +128,19 @@ const userApi = {
 		const response = await axiosClient.post(url, data);
 		return response;
 	},
+	async getTransactions(query) {
+		const keys = Object.keys(query);
+		let params = keys.reduce((acc, key) => {
+			const value = query[key];
+			if (value) {
+				return `${acc}&${key}=${value}`;
+			}
+			return acc;
+		}, "");
+
+		const url = `/user/management/transactions?${params}`;
+		return axiosClient.get(url);
+	}
 };
 
 export default userApi;

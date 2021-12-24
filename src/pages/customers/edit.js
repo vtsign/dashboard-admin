@@ -15,6 +15,13 @@ import {
 	TextField,
 	InputLabel,
 	MenuItem,
+	TableContainer,
+	Table,
+	TableHead,
+	TableRow,
+	TableBody,
+	TableCell,
+	TablePagination
 } from "@mui/material";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import UserAvatar from "../../components/Profiles/UserAvatar";
@@ -23,7 +30,7 @@ import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
 import { useForm, Controller } from "react-hook-form";
 import { useToast } from "src/components/toast/useToast";
-import { formatNumber } from "src/components/global";
+import { formatNumber, convertTime, payment } from "src/components/global";
 
 const roleList = [
 	{
@@ -39,6 +46,10 @@ const roleList = [
 export async function getServerSideProps(ctx) {
 	let query = ctx.query;
 	let id = query.id;
+	let page = query.page ?? 1;
+	let size = query.size ?? 5;
+	let sort_field = query.sort_field ?? "";
+	let sort_type = query.sort_type ?? "asc";
 
 	const props = { id };
 
@@ -48,6 +59,7 @@ export async function getServerSideProps(ctx) {
 const EditCustomer = (props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [userInfo, setUserInfo] = useState(null);
+	const [transactions, setTransactions] = useState(null);
 	const [role, setRoles] = useState(userInfo ? userInfo?.roles?.[0]?.name : "USER");
 
 	const router = useRouter();
@@ -59,7 +71,7 @@ const EditCustomer = (props) => {
 		formState: { errors },
 		control,
 		getValues,
-		setValue
+		setValue,
 	} = useForm();
 
 	useEffect(() => {
@@ -69,8 +81,16 @@ const EditCustomer = (props) => {
 				const response = await userApi.getUser(props.id);
 				if (response.status === 200) {
 					setUserInfo(response.data);
-					setIsLoading(false);
 				}
+				const transactionsRes = await userApi.getTransactions({
+					id: props.id,
+					page: props.page,
+					size: props.size,
+					sort_field: props.sort_field,
+					sort_type: props.sort_type,
+				});
+				if (transactionsRes.status === 200) setTransactions(transactionsRes.data);
+				setIsLoading(false);
 			} catch (err) {
 				error(err.toString() || "Đã có lỗi xảy ra");
 				setIsLoading(false);
@@ -260,7 +280,13 @@ const EditCustomer = (props) => {
 												<TextField
 													name="organization"
 													fullWidth
-													value={userInfo.blocked ? "Đã bị chặn" : userInfo.deleted ? "Đã bị xóa" : "Đang hoạt động"}
+													value={
+														userInfo.blocked
+															? "Đã bị chặn"
+															: userInfo.deleted
+															? "Đã bị xóa"
+															: "Đang hoạt động"
+													}
 												/>
 											</Grid>
 											<Grid item md={6} xs={12}>
@@ -277,14 +303,18 @@ const EditCustomer = (props) => {
 															fullWidth
 															variant="outlined"
 															// size="small"
-															onChange={e => setRoles(e.target.value)}
+															onChange={(e) =>
+																setRoles(e.target.value)
+															}
 															{...inputProps}
 															inputRef={ref}
 															value={value}
 															SelectProps={{
 																displayEmpty: true,
 															}}
-															defaultValue={userInfo?.roles?.[0]?.name ?? "USER"}
+															defaultValue={
+																userInfo?.roles?.[0]?.name ?? "USER"
+															}
 														>
 															{roleList.map(({ value, label }) => {
 																return (
@@ -322,7 +352,138 @@ const EditCustomer = (props) => {
 								</Card>
 							</Grid>
 						</Grid>
-						{/* </Grid> */}
+						<Grid item lg={12}>
+							<Card>
+								<TableContainer sx={{ minWidth: 800 }}>
+									<Table>
+										<TableHead>
+											<TableRow style={{ backgroundColor: "#F4F6F8" }}>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Mã giao dịch
+												</TableCell>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Số tiền
+												</TableCell>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Thời gian giao dịch
+												</TableCell>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Loại giao dịch
+												</TableCell>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Phương thức thanh toán
+												</TableCell>
+												<TableCell
+													style={{ fontSize: 14, fontWeight: 600 }}
+												>
+													Mô tả
+												</TableCell>
+											</TableRow>
+										</TableHead>
+										{transactions && transactions?.list?.length > 0 ? (
+											<>
+												<TableBody>
+													{transactions?.list?.map(
+														(transaction, index) => (
+															<TableRow hover key={transactions.id}>
+																<TableCell
+																	style={{ lineHeight: "24px" }}
+																>
+																	{transaction.id}
+																</TableCell>
+																{transaction.status === "deposit" ||
+																transaction.status ===
+																	"init_balance" ? (
+																	<TableCell
+																		style={{
+																			lineHeight: "24px",
+																			color: "green",
+																		}}
+																		align="right"
+																	>
+																		{`+ ${formatNumber(
+																			transaction.amount
+																		)} đ`}
+																	</TableCell>
+																) : (
+																	<TableCell
+																		style={{
+																			lineHeight: "24px",
+																			color: "red",
+																		}}
+																		align="right"
+																	>
+																		{`- ${formatNumber(
+																			transaction.amount
+																		)} đ`}
+																	</TableCell>
+																)}
+																<TableCell
+																	style={{ lineHeight: "24px" }}
+																>
+																	{convertTime(
+																		transaction.created_date
+																	) ?? ""}
+																</TableCell>
+																<TableCell
+																	style={{ lineHeight: "24px" }}
+																>
+																	{
+																		payment.status[
+																			transaction.status
+																		]
+																	}
+																</TableCell>
+																<TableCell
+																	style={{ lineHeight: "24px" }}
+																>
+																	{
+																		payment.method[
+																			transaction.method
+																		]
+																	}
+																</TableCell>
+																<TableCell
+																	style={{ lineHeight: "24px" }}
+																>
+																	{transaction.description}
+																</TableCell>
+															</TableRow>
+														)
+													)}
+												</TableBody>
+												<TablePagination
+													rowsPerPageOptions={[5, 10, 25]}
+													count={transactions.total_elements}
+													rowsPerPage={props.size}
+													page={props.page - 1}
+													// onPageChange={handleChangePage}
+													// onRowsPerPageChange={handleChangeRowsPerPage}
+												/>
+											</>
+										) : (
+											<TableBody>
+												<TableRow>
+													<TableCell colSpan={3}>
+														Không tìm thấy dữ liệu phù hợp
+													</TableCell>
+												</TableRow>
+											</TableBody>
+										)}
+									</Table>
+								</TableContainer>
+							</Card>
+						</Grid>
 					</Container>
 				)}
 			</Box>
