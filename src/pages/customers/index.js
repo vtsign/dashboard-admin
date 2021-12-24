@@ -91,24 +91,45 @@ const Customers = (props) => {
 	}, [page, size, status, search, sortField, sortType]);
 
 	const handleChangePage = async (e, page) => {
-		router.push(`/customers?page=${page + 1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`);
+		let query = "";
+		if (size) query += `&size=${size}`;
+		if (status) query += `&status=${status}`;
+		if (search) query += `&search=${search}`;
+		if (sortField) query += `&sort_field=&${sortField}`;
+		if (sortType) query += `&sort_type=&${sortType}`;
+		router.push(`/customers?page=${page + 1}${query}`);
 	};
 
 	const handleChangeRowsPerPage = async (e, rows) => {
+		let query = "";
+		if (status) query += `&status=${status}`;
+		if (search) query += `&search=${search}`;
+		if (sortField) query += `&sort_field=&${sortField}`;
+		if (sortType) query += `&sort_type=&${sortType}`;
 		router.push(
-			`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
+			`/customers?page=1&size=${rows.props.value}${query}`
 		);
 	};
 
 	const handleChangeTab = (e, status) => {
+		let query = "";
+		if (size) query += `&size=${size}`;
+		if (search) query += `&search=${search}`;
+		if (sortField) query += `&sort_field=&${sortField}`;
+		if (sortType) query += `&sort_type=&${sortType}`;
 		router.push(
-			`customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
+			`customers?page=${1}&status=${status}${query}`
 		);
 	};
 
 	const handleSearch = (search) => {
+		let query = "";
+		if (size) query += `&size=${size}`;
+		if (status) query += `&status=${status}`;
+		if (sortField) query += `&sort_field=&${sortField}`;
+		if (sortType) query += `&sort_type=&${sortType}`;
 		router.push(
-			`/customers?page=${1}&size=${size}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
+			`/customers?page=${1}${query}&search=${search}`
 		);
 	};
 
@@ -116,8 +137,12 @@ const Customers = (props) => {
 		let type = "asc";
 		if(sortType === "asc")
 			type = "desc";
+		let query = "";
+		if (size) query += `&size=${size}`;
+		if (status) query += `&status=${status}`;
+		if (search) query += `&search=${search}`;
 		router.push(
-			`/customers?page=${page}&size=${size}&status=${status}&search=${search}&sortField=${field}&sortType=${type}`
+			`/customers?page=${1}${query}&sortField=${field}&sortType=${type}`
 		);
 
 	}

@@ -366,17 +366,19 @@ export const CustomerListResults = ({
 						</TableContainer>
 					</Box>
 				</PerfectScrollbar>
-				<TablePagination
-					component="div"
-					labelRowsPerPage="Hiển thị mỗi trang"
-					labelDisplayedRows={displayLabel}
-					count={data.total_elements}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					page={page - 1}
-					rowsPerPage={size}
-					rowsPerPageOptions={[5, 10, 25]}
-				/>
+				{data.list.length > 0 &&
+					<TablePagination
+						component="div"
+						labelRowsPerPage="Hiển thị mỗi trang"
+						labelDisplayedRows={displayLabel}
+						count={data.total_elements}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+						page={page - 1}
+						rowsPerPage={size}
+						rowsPerPageOptions={[5, 10, 25]}
+					/>
+				}
 				<Dialog open={openDeleteDialog} fullWidth maxWidth="xs">
 					<DialogTitle>Xóa người dùng</DialogTitle>
 					<DialogContent>Bạn có chắc muốn xóa người dùng này?</DialogContent>

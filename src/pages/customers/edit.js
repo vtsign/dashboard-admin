@@ -24,7 +24,14 @@ import {
 	TablePagination,
 	Paper,
 } from "@mui/material";
-import { CheckCircleOutlineRounded, Delete, HourglassBottom, NoteAlt } from "@mui/icons-material"
+import {
+	CheckCircleOutlineRounded,
+	Delete,
+	HourglassBottom,
+	NoteAlt,
+	KeyboardArrowDown,
+	KeyboardArrowUp,
+} from "@mui/icons-material";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import UserAvatar from "../../components/Profiles/UserAvatar";
 import UserProfileDetails from "../../components/Profiles/UserProfileDetails";
@@ -96,7 +103,7 @@ const EditCustomer = (props) => {
 				if (transactionsRes.status === 200) setTransactions(transactionsRes.data);
 				const contractsRes = await documentApi.countAllContracts(props.id);
 
-				if(contractsRes.status === 200) setContracts(contractsRes.data);
+				if (contractsRes.status === 200) setContracts(contractsRes.data);
 				setIsLoading(false);
 			} catch (err) {
 				error(err.toString() || "Đã có lỗi xảy ra");
@@ -106,7 +113,6 @@ const EditCustomer = (props) => {
 	}, [props.id, props.page, props.size, props.sort_type, props.sort_field]);
 
 	const onSubmitChange = async (formData) => {
-
 		formData.role = role;
 
 		try {
@@ -119,20 +125,32 @@ const EditCustomer = (props) => {
 	};
 
 	const handleChangePage = async (e, page) => {
+		let query = "";
+		if (props.size) query += `&size=${props.size}`;
+		if (props.sort_field) query += `&sort_field=&${props.sort_field}`;
+		if (props.sort_type) query += `&sort_type=&${props.sort_type}`;
 		router.push(
-			`/customers/edit?id=${props.id}&page=${page + 1}&size=${props.size}&sortField=${props.sortField}&sortType=${props.sortType}`
+			`/customers/edit?id=${props.id}&page=${page + 1}${query}`
 		);
 	};
 
 	const handleChangeRowsPerPage = async (e, rows) => {
+		let query = "";
+		if (props.sort_field) query += `&sort_field=&${props.sort_field}`;
+		if (props.sort_type) query += `&sort_type=&${props.sort_type}`;
 		router.push(
-			`/customers/edit?id=${props.id}&page=1&size=${rows.props.value}&sortField=${
-				props.sortField
-			}&sortType=${props.sortType}`
+			`/customers/edit?id=${props.id}&page=1&size=${rows.props.value}${query}`
 		);
-		// router.push(
-		// 	`/customers?page=1&size=${rows.props.value}&status=${status}&search=${search}&sortField=${sortField}&sortType=${sortType}`
-		// );
+	};
+
+	const handleSort = (field) => {
+		let type = "asc";
+		if (props.sort_type === "asc") type = "desc";
+		router.push(
+			`/customers/edit?id=${props.id}&page=${1}&size=${
+				props.size
+			}&sort_field=${field}&sort_type=${type}`
+		);
 	};
 
 	function displayLabel(data) {
@@ -398,33 +416,117 @@ const EditCustomer = (props) => {
 												<TableRow style={{ backgroundColor: "#F4F6F8" }}>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("id")}
 													>
-														Mã giao dịch
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Mã giao dịch</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("amount")}
 													>
-														Số tiền
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Số tiền</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("createdDate")}
 													>
-														Thời gian giao dịch
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Thời gian giao dịch</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("status")}
 													>
-														Loại giao dịch
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Loại giao dịch</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("method")}
 													>
-														Phương thức thanh toán
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Phương thức thanh toán</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 													<TableCell
 														style={{ fontSize: 14, fontWeight: 600 }}
+														onClick={() => handleSort("description")}
 													>
-														Mô tả
+														<Box
+															style={{
+																display: "flex",
+																alignItems: "center",
+																cursor: "pointer",
+															}}
+														>
+															<p>Mô tả</p>
+															{props.sort_type === "asc" ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)}
+														</Box>{" "}
 													</TableCell>
 												</TableRow>
 											</TableHead>

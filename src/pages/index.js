@@ -174,7 +174,7 @@ const Dashboard = () => {
 							<MenuItem value="week">Tuần</MenuItem>
 							<MenuItem value="month">Tháng</MenuItem>
 							<MenuItem value="year">Năm</MenuItem>
-							{/* <MenuItem value='all'>Tất cả</MenuItem> */}
+							<MenuItem value='all'>Tất cả</MenuItem>
 						</Select>
 					</FormControl>
 					<Grid container spacing={3}>

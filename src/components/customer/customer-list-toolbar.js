@@ -113,7 +113,6 @@ export const CustomerListToolbar = (props) => {
 									startAdornment: (
 										<InputAdornment
 											position="start"
-											style={{ cursor: "pointer" }}
 										>
 											<SvgIcon color="action" fontSize="small">
 												<SearchIcon />
