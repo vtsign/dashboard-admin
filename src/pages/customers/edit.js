@@ -116,9 +116,13 @@ const EditCustomer = (props) => {
 		formData.role = role;
 
 		try {
-			await userApi.updateUser(props.id, formData);
-			success("Cập nhật tài khoản thành công");
-			router.reload();
+			const response = await userApi.updateUser(props.id, formData);
+			if(response.status === 200) {
+				success("Cập nhật tài khoản thành công");
+				router.reload();
+			} else {
+				error(response.message || "Đã có lỗi xảy ra");
+			}
 		} catch (err) {
 			error(err.toString() || "Đã có lỗi xảy ra");
 		}
@@ -130,7 +134,9 @@ const EditCustomer = (props) => {
 		if (props.sort_field) query += `&sort_field=&${props.sort_field}`;
 		if (props.sort_type) query += `&sort_type=&${props.sort_type}`;
 		router.push(
-			`/customers/edit?id=${props.id}&page=${page + 1}${query}`
+			`/customers/edit?id=${props.id}&page=${page + 1}${query}`, null, {
+				scroll: true
+			}
 		);
 	};
 

@@ -78,10 +78,13 @@ export const CustomerListResults = ({
 				setOpenDeleteDialog(false);
 				setIsLoading(false);
 				router.reload();
+			} else {
+				error(response.message || "Đã có lỗi xảy ra");
+				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error("Đã có lỗi xảy ra");
+			error(err.toString() || "Đã có lỗi xảy ra");
 		}
 	};
 
@@ -95,10 +98,13 @@ export const CustomerListResults = ({
 				setOpenBlockDialog(false);
 				setIsLoading(false);
 				router.reload();
+			} else {
+				error(response.message || "Đã có lỗi xảy ra");
+				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error("Đã có lỗi xảy ra");
+			error(err.toString() || "Đã có lỗi xảy ra");
 		}
 	};
 
@@ -112,16 +118,15 @@ export const CustomerListResults = ({
 				setOpenRestoreDialog(false);
 				setIsLoading(false);
 				router.reload();
+			} else {
+				error(response.message || "Đã có lỗi xảy ra");
+				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error("Đã có lỗi xảy ra");
+			error(err.toString() || "Đã có lỗi xảy ra");
 		}
 	};
-
-	// const handleSortEmail = () => {
-
-	// }
 
 	const handleUnblockCustomer = async (customer) => {
 		setIsLoading(true);
@@ -133,10 +138,13 @@ export const CustomerListResults = ({
 				setOpenUnblockDialog(false);
 				setIsLoading(false);
 				router.reload();
+			} else {
+				error(response.message || "Đã có lỗi xảy ra");
+				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error("Đã có lỗi xảy ra");
+			error(err.toString() || "Đã có lỗi xảy ra");
 		}
 	};
 

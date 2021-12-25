@@ -44,6 +44,8 @@ const Login = () => {
 						success("Đăng nhập thành công");
 						router.push("/");
 					}
+				} else {
+					error(response.message || "Tài khoản hoặc mật khẩu không đúng");
 				}
 			} catch (err) {
 				error("Tài khoản hoặc mật khẩu không đúng");

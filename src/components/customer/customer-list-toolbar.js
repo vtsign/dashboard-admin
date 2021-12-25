@@ -32,6 +32,7 @@ export const CustomerListToolbar = (props) => {
 	const router = useRouter();
 	const { success, error } = useToast();
 
+	const REG_PHONE = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 	const formik = useFormik({
 		initialValues: {
 			email: "",
@@ -49,7 +50,10 @@ export const CustomerListToolbar = (props) => {
 				.max(255)
 				.required("Vui lòng nhập địa chỉ email"),
 			password: Yup.string().max(255).required("Vui lòng nhập mật khẩu"),
-			phone: Yup.string().max(255).required("Vui lòng nhập số điện thoại"),
+			phone: Yup.string()
+				.matches(REG_PHONE, "Số điện thoại không đúng định dạng")
+				.max(255)
+				.required("Vui lòng nhập số điện thoại"),
 			organization: Yup.string().max(255).required("Vui lòng nhập cơ quan"),
 			address: Yup.string().max(255).required("Vui lòng nhập địa chỉ"),
 			role: Yup.string().max(255).required("Vui lòng nhập vai trò"),
@@ -65,10 +69,12 @@ export const CustomerListToolbar = (props) => {
 					success("Thêm người dùng thành công");
 					setOpenAddCustomerDialog(false);
 					router.reload();
+				} else {
+					error(response.message || "Đã có lỗi xảy ra");
 				}
 			} catch (err) {
 				setIsLoading(false);
-				error("Đã có lỗi xảy ra");
+				error(err.toString() || "Đã có lỗi xảy ra");
 			}
 		},
 	});
