@@ -56,12 +56,13 @@ const roleList = [
 export async function getServerSideProps(ctx) {
 	let query = ctx.query;
 	let id = query.id;
+	let pageQuery = query.page ?? null;
 	let page = query.page || 1;
 	let size = query.size ?? 5;
 	let sort_field = query.sort_field ?? "";
 	let sort_type = query.sort_type ?? "asc";
 
-	const props = { id, page: parseInt(page), size: parseInt(size), sort_field, sort_type };
+	const props = { id, pageQuery, page: parseInt(page), size: parseInt(size), sort_field, sort_type };
 
 	return { props };
 }
@@ -105,6 +106,8 @@ const EditCustomer = (props) => {
 
 				if (contractsRes.status === 200) setContracts(contractsRes.data);
 				setIsLoading(false);
+				if(props.pageQuery)
+					window.scrollTo(0, 1000)
 			} catch (err) {
 				error(err.toString() || "Đã có lỗi xảy ra");
 				setIsLoading(false);
