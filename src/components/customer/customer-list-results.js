@@ -37,6 +37,7 @@ import { useRouter } from "next/router";
 import userApi from "src/api/userApi";
 import { useToast } from "../toast/useToast";
 import Loading from "../Loading/Loading";
+import { responseMessage } from "../global";
 
 export const CustomerListResults = ({
 	listStatus,
@@ -46,8 +47,7 @@ export const CustomerListResults = ({
 	size,
 	status,
 	sortType,
-	ascending,
-	setAscending,
+	sortField,
 	handleChangePage,
 	handleChangeRowsPerPage,
 	handleChangeTab,
@@ -79,7 +79,7 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(response.message || "Đã có lỗi xảy ra");
+				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 				return;
 			}
 		} catch (err) {
@@ -99,7 +99,7 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(response.message || "Đã có lỗi xảy ra");
+				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 				return;
 			}
 		} catch (err) {
@@ -119,7 +119,7 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(response.message || "Đã có lỗi xảy ra");
+				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 				return;
 			}
 		} catch (err) {
@@ -139,7 +139,7 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(response.message || "Đã có lỗi xảy ra");
+				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 				return;
 			}
 		} catch (err) {
@@ -190,10 +190,10 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Tên</p>
-												{sortType === "asc" ? (
-													<KeyboardArrowDown />
-												) : (
+												{sortField === "firstName" && sortType === "asc" ? (
 													<KeyboardArrowUp />
+												) : (
+													<KeyboardArrowDown />
 												)}
 											</Box>{" "}
 										</TableCell>
@@ -206,10 +206,10 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Email</p>
-												{sortType === "asc" ? (
-													<KeyboardArrowDown />
-												) : (
+												{sortField === "email" && sortType === "asc" ? (
 													<KeyboardArrowUp />
+												) : (
+													<KeyboardArrowDown />
 												)}
 											</Box>{" "}
 										</TableCell>
@@ -222,10 +222,10 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Địa chỉ</p>
-												{sortType === "asc" ? (
-													<KeyboardArrowDown />
-												) : (
+												{sortField === "address" && sortType === "asc" ? (
 													<KeyboardArrowUp />
+												) : (
+													<KeyboardArrowDown />
 												)}
 											</Box>{" "}
 										</TableCell>
@@ -238,10 +238,10 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Số điện thoại</p>
-												{sortType === "asc" ? (
-													<KeyboardArrowDown />
-												) : (
+												{sortField === "phone" && sortType === "asc" ? (
 													<KeyboardArrowUp />
+												) : (
+													<KeyboardArrowDown />
 												)}
 											</Box>{" "}
 										</TableCell>
@@ -254,10 +254,10 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Cơ quan</p>
-												{sortType === "asc" ? (
-													<KeyboardArrowDown />
-												) : (
+												{sortField === "organization" && sortType === "asc" ? (
 													<KeyboardArrowUp />
+												) : (
+													<KeyboardArrowDown />
 												)}
 											</Box>{" "}
 										</TableCell>
@@ -374,7 +374,7 @@ export const CustomerListResults = ({
 						</TableContainer>
 					</Box>
 				</PerfectScrollbar>
-				{data.list.length > 0 &&
+				{data.list.length > 0 && (
 					<TablePagination
 						component="div"
 						labelRowsPerPage="Hiển thị mỗi trang"
@@ -386,7 +386,7 @@ export const CustomerListResults = ({
 						rowsPerPage={size}
 						rowsPerPageOptions={[5, 10, 25]}
 					/>
-				}
+				)}
 				<Dialog open={openDeleteDialog} fullWidth maxWidth="xs">
 					<DialogTitle>Xóa người dùng</DialogTitle>
 					<DialogContent>Bạn có chắc muốn xóa người dùng này?</DialogContent>

@@ -17,6 +17,14 @@ export const payment = {
 	},
 };
 
+export const responseMessage = {
+	400: "Cú pháp không hợp lệ",
+	401: "Người dùng chưa được xác thực",
+	403: "Người dùng không có quyền truy cập",
+	404: "Nội dung không tồn tại",
+	500: "Máy chủ gặp trục trặc"
+}
+
 export const formatNumber = (num) => {
 	num = Math.round((num ?? 0) * 10 + Number.EPSILON) / 10;
 	return num?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");

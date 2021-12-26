@@ -14,6 +14,7 @@ import Router, { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import userApi from "../../api/userApi";
 import { useToast } from "../toast/useToast";
+import { responseMessage } from "../global";
 
 const UserProfileDetails = ({ userInfo, selectedImage }) => {
 	const [loading, setLoading] = useState(false);
@@ -34,14 +35,14 @@ const UserProfileDetails = ({ userInfo, selectedImage }) => {
 				data.append("avatar", selectedImage);
 				const avatarRes = await userApi.updateAvatar(data);
 				if(avatarRes.status !== 200) {
-					error(avatarRes.message || "Đã có lỗi xảy ra");
+					error(responseMessage[avatarRes.status] || "Đã có lỗi xảy ra");
 					setLoading(false);
 					return;
 				}
 			}
 			const profileRes = await userApi.updateUserProfile(formData);
 			if(profileRes.status !== 200) {
-				error(profileRes.message || "Đã có lỗi xảy ra");
+				error(responseMessage[profileRes.status] || "Đã có lỗi xảy ra");
 				setLoading(false);
 				return;
 			}

@@ -23,6 +23,7 @@ import userApi from "src/api/userApi";
 import { useToast } from "../toast/useToast";
 import { useRouter } from "next/router";
 import Loading from "../Loading/Loading";
+import { responseMessage } from "../global";
 
 export const CustomerListToolbar = (props) => {
 	const [openAddCustomerDialog, setOpenAddCustomerDialog] = useState(false);
@@ -70,7 +71,7 @@ export const CustomerListToolbar = (props) => {
 					setOpenAddCustomerDialog(false);
 					router.reload();
 				} else {
-					error(response.message || "Đã có lỗi xảy ra");
+					error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 				}
 			} catch (err) {
 				setIsLoading(false);

@@ -39,7 +39,7 @@ import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
 import { useForm, Controller } from "react-hook-form";
 import { useToast } from "src/components/toast/useToast";
-import { formatNumber, convertTime, payment } from "src/components/global";
+import { formatNumber, convertTime, payment, responseMessage } from "src/components/global";
 import documentApi from "src/api/documentApi";
 
 const roleList = [
@@ -121,7 +121,7 @@ const EditCustomer = (props) => {
 				success("Cập nhật tài khoản thành công");
 				router.reload();
 			} else {
-				error(response.message || "Đã có lỗi xảy ra");
+				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
 			}
 		} catch (err) {
 			error(err.toString() || "Đã có lỗi xảy ra");
@@ -151,7 +151,7 @@ const EditCustomer = (props) => {
 
 	const handleSort = (field) => {
 		let type = "asc";
-		if (props.sort_type === "asc") type = "desc";
+		if (props.sort_field === field && props.sort_type === "asc") type = "desc";
 		router.push(
 			`/customers/edit?id=${props.id}&page=${1}&size=${
 				props.size
@@ -432,10 +432,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Mã giao dịch</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "id" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>
@@ -451,10 +452,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Số tiền</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "amount" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>
@@ -470,10 +472,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Thời gian giao dịch</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "createdDate" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>
@@ -489,10 +492,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Loại giao dịch</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "status" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>
@@ -508,10 +512,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Phương thức thanh toán</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "method" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>
@@ -527,10 +532,11 @@ const EditCustomer = (props) => {
 															}}
 														>
 															<p>Mô tả</p>
-															{props.sort_type === "asc" ? (
-																<KeyboardArrowDown />
-															) : (
+															{props.sort_field === "description" &&
+															props.sort_type === "asc" ? (
 																<KeyboardArrowUp />
+															) : (
+																<KeyboardArrowDown />
 															)}
 														</Box>{" "}
 													</TableCell>

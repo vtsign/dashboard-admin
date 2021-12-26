@@ -7,6 +7,7 @@ import { Box, Button, Container, Grid, TextField, Typography } from "@mui/materi
 import authApi from "../api/authApi";
 import { useToast } from "../components/toast/useToast";
 import Loading from "src/components/Loading/Loading";
+import { responseMessage } from "src/components/global";
 
 const Login = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +46,7 @@ const Login = () => {
 						router.push("/");
 					}
 				} else {
-					error(response.message || "Tài khoản hoặc mật khẩu không đúng");
+					error(responseMessage[response.status] || "Tài khoản hoặc mật khẩu không đúng");
 				}
 			} catch (err) {
 				error("Tài khoản hoặc mật khẩu không đúng");

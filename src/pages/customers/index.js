@@ -171,8 +171,7 @@ const Customers = (props) => {
 								size={size}
 								status={status}
 								sortType={sortType}
-								ascending={ascending}
-								setAscending={setAscending}
+								sortField={sortField}
 								handleChangeTab={handleChangeTab}
 								handleChangePage={handleChangePage}
 								handleChangeRowsPerPage={handleChangeRowsPerPage}
