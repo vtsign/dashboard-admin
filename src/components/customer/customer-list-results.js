@@ -93,7 +93,8 @@ export const CustomerListResults = ({
 						error("Máy chủ gặp trục trặc");
 						break;
 					default:
-						"Đã có lỗi xảy ra";
+						error("Đã có lỗi xảy ra");
+						break;
 				}
 				setIsLoading(false);
 				return;
@@ -129,7 +130,8 @@ export const CustomerListResults = ({
 						error("Máy chủ gặp trục trặc");
 						break;
 					default:
-						"Đã có lỗi xảy ra";
+						error("Đã có lỗi xảy ra");
+						break;
 				}
 				setIsLoading(false);
 				return;
@@ -165,7 +167,8 @@ export const CustomerListResults = ({
 						error("Máy chủ gặp trục trặc");
 						break;
 					default:
-						"Đã có lỗi xảy ra";
+						error("Đã có lỗi xảy ra");
+						break;
 				}
 				setIsLoading(false);
 				return;
@@ -201,7 +204,8 @@ export const CustomerListResults = ({
 						error("Máy chủ gặp trục trặc");
 						break;
 					default:
-						"Đã có lỗi xảy ra";
+						error("Đã có lỗi xảy ra");
+						break;
 				}
 				setIsLoading(false)
 				return;
