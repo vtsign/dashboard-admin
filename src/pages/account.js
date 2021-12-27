@@ -17,8 +17,28 @@ const Account = () => {
 			try {
 				setLoading(true);
 				const response = await userApi.getUserProfile();
-				setUserInfo(response.data);
-				setLoading(false);
+				if(response.status === 200) {
+					setLoading(false);
+					setUserInfo(response.data);
+				}
+				else {
+					switch (response.status) {
+						case 400:
+							error("Thiếu thông tin hoặc access token");
+							break;
+						case 403:
+							error("Truy cập bị chặn");
+							break;
+						case 404:
+							error("Tài khoản không tồn tại");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							"Đã có lỗi xảy ra";
+					}
+				}
 			} catch (err) {
 				console.log(err);
 			}

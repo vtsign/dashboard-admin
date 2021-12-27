@@ -46,7 +46,24 @@ const Login = () => {
 						router.push("/");
 					}
 				} else {
-					error(responseMessage[response.status] || "Tài khoản hoặc mật khẩu không đúng");
+					switch (response.status) {
+						case 401:
+							error("Tài khoản hoặc mật khẩu không đúng");
+							break;
+						case 419:
+							error("Thiếu email hoặc password");
+							break;
+						case 423:
+							error("Tài khoản chưa được kích hoạt");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							"Đã có lỗi xảy ra";
+					}
+					setIsLoading(false);
+					return;
 				}
 			} catch (err) {
 				error("Tài khoản hoặc mật khẩu không đúng");

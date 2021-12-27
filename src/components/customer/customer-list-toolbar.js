@@ -71,7 +71,23 @@ export const CustomerListToolbar = (props) => {
 					setOpenAddCustomerDialog(false);
 					router.reload();
 				} else {
-					error(responseMessage[response.status] || "Đã có lỗi xảy ra");
+					setIsLoading(false);
+					switch (response.status) {
+						case 403:
+							error("Truy cập bị chặn");
+							break;
+						case 409:
+							error("Tài khoản đã tồn tại");
+							break;
+						case 419:
+							error("Thiếu thông tin");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							"Đã có lỗi xảy ra";
+					}
 				}
 			} catch (err) {
 				setIsLoading(false);

@@ -79,7 +79,23 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
+				switch (response.status) {
+					case 400:
+						error("Thiếu thông tin hoặc access token");
+						break;
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Tài khoản không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						"Đã có lỗi xảy ra";
+				}
+				setIsLoading(false);
 				return;
 			}
 		} catch (err) {
@@ -99,7 +115,23 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
+				switch (response.status) {
+					case 400:
+						error("Thiếu thông tin hoặc access token");
+						break;
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Tài khoản không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						"Đã có lỗi xảy ra";
+				}
+				setIsLoading(false);
 				return;
 			}
 		} catch (err) {
@@ -119,7 +151,23 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
+				switch (response.status) {
+					case 400:
+						error("Thiếu thông tin hoặc access token");
+						break;
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Tài khoản không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						"Đã có lỗi xảy ra";
+				}
+				setIsLoading(false);
 				return;
 			}
 		} catch (err) {
@@ -139,7 +187,23 @@ export const CustomerListResults = ({
 				setIsLoading(false);
 				router.reload();
 			} else {
-				error(responseMessage[response.status] || "Đã có lỗi xảy ra");
+				switch (response.status) {
+					case 400:
+						error("Thiếu thông tin hoặc access token");
+						break;
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Tài khoản không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						"Đã có lỗi xảy ra";
+				}
+				setIsLoading(false)
 				return;
 			}
 		} catch (err) {
