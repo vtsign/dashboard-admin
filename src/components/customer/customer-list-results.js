@@ -228,6 +228,8 @@ export const CustomerListResults = ({
 		);
 	}
 
+	const showIconSort = (sortType === 'desc' ? <KeyboardArrowUp /> : <KeyboardArrowDown />)
+
 	return (
 		<>
 			{isLoading && <Loading />}
@@ -258,11 +260,12 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Tên</p>
-												{sortField === "firstName" && sortType === "asc" ? (
+												{/* {sortField === "firstName" && sortType === "asc" ? (
 													<KeyboardArrowUp />
 												) : (
 													<KeyboardArrowDown />
-												)}
+												)} */}
+												{sortField === "firstName" && showIconSort}
 											</Box>{" "}
 										</TableCell>
 										<TableCell onClick={() => handleSort("email")}>
@@ -274,11 +277,12 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Email</p>
-												{sortField === "email" && sortType === "asc" ? (
+												{/* {sortField === "email" && sortType === "asc" ? (
 													<KeyboardArrowUp />
 												) : (
 													<KeyboardArrowDown />
-												)}
+												)} */}
+												{sortField === "email" && showIconSort}
 											</Box>{" "}
 										</TableCell>
 										<TableCell onClick={() => handleSort("address")}>
@@ -290,11 +294,12 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Địa chỉ</p>
-												{sortField === "address" && sortType === "asc" ? (
+												{/* {sortField === "address" && sortType === "asc" ? (
 													<KeyboardArrowUp />
 												) : (
 													<KeyboardArrowDown />
-												)}
+												)} */}
+												{sortField === "address" && showIconSort}
 											</Box>{" "}
 										</TableCell>
 										<TableCell onClick={() => handleSort("phone")}>
@@ -306,11 +311,13 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Số điện thoại</p>
-												{sortField === "phone" && sortType === "asc" ? (
+												{/* {sortField === "phone" && sortType === "asc" ? (
 													<KeyboardArrowUp />
 												) : (
 													<KeyboardArrowDown />
-												)}
+												)} */}
+
+												{sortField === "phone" && showIconSort}
 											</Box>{" "}
 										</TableCell>
 										<TableCell onClick={() => handleSort("organization")}>
@@ -322,11 +329,12 @@ export const CustomerListResults = ({
 												}}
 											>
 												<p>Cơ quan</p>
-												{sortField === "organization" && sortType === "asc" ? (
+												{/* {sortField === "organization" && sortType === "asc" ? (
 													<KeyboardArrowUp />
 												) : (
 													<KeyboardArrowDown />
-												)}
+												)} */}
+												{sortField === "organization" && showIconSort}
 											</Box>{" "}
 										</TableCell>
 										<TableCell align="center">Thao tác</TableCell>

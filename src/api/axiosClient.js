@@ -1,5 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
+import { destroyCookie } from 'nookies'
 // Set up default config for http requests here
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "https://api.vtsign.tech";
@@ -14,6 +15,7 @@ const getAccessToken = async () => {
 	}
 	if (refreshTokenExpired < Date.now()) {
 		localStorage.setItem("isLogin", "false");
+		destroyCookie(null, "isLoggedIn")
 		window.location.href = "/login";
 		return;
 	}

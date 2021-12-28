@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createEmotionCache } from "../utils/create-emotion-cache";
 import { theme } from "../theme";
 import { ToastProvider } from "../components/toast/providers/ToastProvider.js";
+import { parseCookies } from 'nookies'
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -33,4 +34,33 @@ const App = (props) => {
 	);
 };
 
+function redirectUser(ctx, location) {
+	if (ctx.req) {
+		ctx.res.writeHead(302, { Location: location });
+		ctx.res.end();
+	} else {
+		Router.push(location);
+	}
+}
+
+App.getInitialProps = async ({ Component, ctx }) => {
+	let pageProps = {}
+	const isLoggedIn = parseCookies(ctx).isLoggedIn === 'true';
+
+	if (Component.getInitialProps) {
+		pageProps = await Component.getInitialProps(ctx)
+	}
+
+	//nếu chưa đăng nhập thì điều hướng đến trang đăng nhập
+	//đến đã đăng nhập muốn vào trang login thì phải nhấn button logout, nên điều hướng đến manage
+	if (!isLoggedIn) {
+		if (!ctx.pathname.includes("/login")) {
+			redirectUser(ctx, "/login");
+		}
+	}
+
+	return {
+		pageProps
+	}
+}
 export default App;

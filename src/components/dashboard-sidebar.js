@@ -8,6 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { User as UserIcon } from "../icons/user";
 import { Users as UsersIcon } from "../icons/users";
 import { NavItem } from "./nav-item";
+import { destroyCookie } from 'nookies'
 
 const items = [
 	{
@@ -43,6 +44,7 @@ export const DashboardSidebar = (props) => {
 		localStorage.removeItem("refreshTokenExpired");
 		localStorage.removeItem("isLogin");
 		window.location.href = "/login";
+		destroyCookie(null, 'isLoggedIn')
 	};
 
 	useEffect(

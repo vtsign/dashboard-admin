@@ -8,6 +8,7 @@ import authApi from "../api/authApi";
 import { useToast } from "../components/toast/useToast";
 import Loading from "src/components/Loading/Loading";
 import { responseMessage } from "src/components/global";
+import { setCookie } from 'nookies'
 
 const Login = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +32,8 @@ const Login = () => {
 				const response = await authApi.login(formData.email, formData.password);
 				let isAdmin = false;
 				if (response.status === 200) {
+					// Set
+					setCookie(null, 'isLoggedIn', true)
 					const { data } = response;
 					data.roles.forEach((item) => {
 						if (item.name === "ADMIN") {
