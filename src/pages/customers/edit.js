@@ -93,6 +93,24 @@ const EditCustomer = (props) => {
 				const response = await userApi.getUser(props.id);
 				if (response.status === 200) {
 					setUserInfo(response.data);
+				} else {
+					switch (response.status) {
+						case 400:
+							error("Thiếu thông tin hoặc access token");
+							break;
+						case 403:
+							error("Truy cập bị chặn");
+							break;
+						case 404:
+							error("Tài khoản không tồn tại");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							error("Đã có lỗi xảy ra");
+							break;
+					}
 				}
 				const transactionsRes = await userApi.getTransactions({
 					id: props.id,
@@ -102,9 +120,44 @@ const EditCustomer = (props) => {
 					sort_type: props.sort_type,
 				});
 				if (transactionsRes.status === 200) setTransactions(transactionsRes.data);
+				else {
+					switch (transactionsRes.status) {
+						case 400:
+							error("Thiếu thông tin hoặc access token");
+							break;
+						case 403:
+							error("Truy cập bị chặn");
+							break;
+						case 419:
+							error("Thiếu thông tin");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							error("Đã có lỗi xảy ra");
+							break;
+					}
+				}
 				const contractsRes = await documentApi.countAllContracts(props.id);
 
 				if (contractsRes.status === 200) setContracts(contractsRes.data);
+				else {
+					switch (transactionsRes.status) {
+						case 400:
+							error("Thiếu thông tin hoặc access token");
+							break;
+						case 403:
+							error("Truy cập bị chặn");
+							break;
+						case 500:
+							error("Máy chủ gặp trục trặc");
+							break;
+						default:
+							error("Đã có lỗi xảy ra");
+							break;
+					}
+				}
 				setIsLoading(false);
 				if(props.pageQuery)
 					window.scrollTo(0, 1000)
@@ -140,7 +193,8 @@ const EditCustomer = (props) => {
 						error("Máy chủ gặp trục trặc");
 						break;
 					default:
-						"Đã có lỗi xảy ra";
+						error("Đã có lỗi xảy ra");
+						break;
 				}
 				setIsLoading(false);
 				return;
