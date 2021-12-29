@@ -78,30 +78,26 @@ export const CustomerListResults = ({
 				setOpenDeleteDialog(false);
 				setIsLoading(false);
 				router.reload();
-			} else {
-				switch (response.status) {
-					case 400:
-						error("Thiếu thông tin hoặc access token");
-						break;
-					case 403:
-						error("Truy cập bị chặn");
-						break;
-					case 404:
-						error("Tài khoản không tồn tại");
-						break;
-					case 500:
-						error("Máy chủ gặp trục trặc");
-						break;
-					default:
-						error("Đã có lỗi xảy ra");
-						break;
-				}
-				setIsLoading(false);
-				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error(err.toString() || "Đã có lỗi xảy ra");
+			switch (err.status) {
+				case 400:
+					error("Thiếu thông tin hoặc access token");
+					break;
+				case 403:
+					error("Truy cập bị chặn");
+					break;
+				case 404:
+					error("Tài khoản không tồn tại");
+					break;
+				case 500:
+					error("Máy chủ gặp trục trặc");
+					break;
+				default:
+					error("Đã có lỗi xảy ra");
+					break;
+			}
 		}
 	};
 
@@ -115,30 +111,26 @@ export const CustomerListResults = ({
 				setOpenBlockDialog(false);
 				setIsLoading(false);
 				router.reload();
-			} else {
-				switch (response.status) {
-					case 400:
-						error("Thiếu thông tin hoặc access token");
-						break;
-					case 403:
-						error("Truy cập bị chặn");
-						break;
-					case 404:
-						error("Tài khoản không tồn tại");
-						break;
-					case 500:
-						error("Máy chủ gặp trục trặc");
-						break;
-					default:
-						error("Đã có lỗi xảy ra");
-						break;
-				}
-				setIsLoading(false);
-				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error(err.toString() || "Đã có lỗi xảy ra");
+			switch (err.status) {
+				case 400:
+					error("Thiếu thông tin hoặc access token");
+					break;
+				case 403:
+					error("Truy cập bị chặn");
+					break;
+				case 404:
+					error("Tài khoản không tồn tại");
+					break;
+				case 500:
+					error("Máy chủ gặp trục trặc");
+					break;
+				default:
+					error("Đã có lỗi xảy ra");
+					break;
+			}
 		}
 	};
 
@@ -152,30 +144,26 @@ export const CustomerListResults = ({
 				setOpenRestoreDialog(false);
 				setIsLoading(false);
 				router.reload();
-			} else {
-				switch (response.status) {
-					case 400:
-						error("Thiếu thông tin hoặc access token");
-						break;
-					case 403:
-						error("Truy cập bị chặn");
-						break;
-					case 404:
-						error("Tài khoản không tồn tại");
-						break;
-					case 500:
-						error("Máy chủ gặp trục trặc");
-						break;
-					default:
-						error("Đã có lỗi xảy ra");
-						break;
-				}
-				setIsLoading(false);
-				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error(err.toString() || "Đã có lỗi xảy ra");
+			switch (err.status) {
+				case 400:
+					error("Thiếu thông tin hoặc access token");
+					break;
+				case 403:
+					error("Truy cập bị chặn");
+					break;
+				case 404:
+					error("Tài khoản không tồn tại");
+					break;
+				case 500:
+					error("Máy chủ gặp trục trặc");
+					break;
+				default:
+					error("Đã có lỗi xảy ra");
+					break;
+			}
 		}
 	};
 
@@ -189,30 +177,26 @@ export const CustomerListResults = ({
 				setOpenUnblockDialog(false);
 				setIsLoading(false);
 				router.reload();
-			} else {
-				switch (response.status) {
-					case 400:
-						error("Thiếu thông tin hoặc access token");
-						break;
-					case 403:
-						error("Truy cập bị chặn");
-						break;
-					case 404:
-						error("Tài khoản không tồn tại");
-						break;
-					case 500:
-						error("Máy chủ gặp trục trặc");
-						break;
-					default:
-						error("Đã có lỗi xảy ra");
-						break;
-				}
-				setIsLoading(false)
-				return;
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error(err.toString() || "Đã có lỗi xảy ra");
+			switch (err.status) {
+				case 400:
+					error("Thiếu thông tin hoặc access token");
+					break;
+				case 403:
+					error("Truy cập bị chặn");
+					break;
+				case 404:
+					error("Tài khoản không tồn tại");
+					break;
+				case 500:
+					error("Máy chủ gặp trục trặc");
+					break;
+				default:
+					error("Đã có lỗi xảy ra");
+					break;
+			}
 		}
 	};
 

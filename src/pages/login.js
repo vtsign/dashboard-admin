@@ -8,7 +8,7 @@ import authApi from "../api/authApi";
 import { useToast } from "../components/toast/useToast";
 import Loading from "src/components/Loading/Loading";
 import { responseMessage } from "src/components/global";
-import { setCookie } from 'nookies'
+import { setCookie } from "nookies";
 
 const Login = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -31,46 +31,42 @@ const Login = () => {
 			try {
 				const response = await authApi.login(formData.email, formData.password);
 				let isAdmin = false;
-				if (response.status === 200) {
-					// Set
-					setCookie(null, 'isLoggedIn', true)
-					const { data } = response;
-					data.roles.forEach((item) => {
-						if (item.name === "ADMIN") {
-							isAdmin = true;
-						}
-					});
-					if (!isAdmin) {
-						setIsLoading(false);
-						error("Tài khoản không có quyền đăng nhập");
-					} else {
-						setIsLoading(false);
-						success("Đăng nhập thành công");
-						router.push("/");
+				setCookie(null, "isLoggedIn", true);
+				const { data } = response;
+				data.roles.forEach((item) => {
+					if (item.name === "ADMIN") {
+						isAdmin = true;
 					}
-				} else {
-					switch (response.status) {
-						case 401:
-							error("Tài khoản hoặc mật khẩu không đúng");
-							break;
-						case 419:
-							error("Thiếu email hoặc password");
-							break;
-						case 423:
-							error("Tài khoản chưa được kích hoạt");
-							break;
-						case 500:
-							error("Máy chủ gặp trục trặc");
-							break;
-						default:
-							error("Đã có lỗi xảy ra");
-							break;
-					}
+				});
+				if (!isAdmin) {
 					setIsLoading(false);
-					return;
+					error("Tài khoản không có quyền đăng nhập");
+				} else {
+					setIsLoading(false);
+					success("Đăng nhập thành công");
+					router.push("/");
 				}
 			} catch (err) {
-				error("Tài khoản hoặc mật khẩu không đúng");
+				switch (err.status) {
+					case 401:
+						error("Tài khoản hoặc mật khẩu không đúng");
+						break;
+					case 403:
+						error("Tài khoản hoặc mật khẩu không đúng");
+						break;
+					case 419:
+						error("Thiếu email hoặc password");
+						break;
+					case 423:
+						error("Tài khoản chưa được kích hoạt");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
 				setIsLoading(false);
 			}
 		},

@@ -79,21 +79,55 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		(async () => {
-			const { data: totalUser } = await userApi.countUser(type);
-			const { data: totalDeposit } = await userApi.countDeposit(type);
-			const { data: totalContracts } = await documentApi.countContract(type);
+			try {
+				const { data: totalUser } = await userApi.countUser(type);
+				const { data: totalDeposit } = await userApi.countDeposit(type);
+				const { data: totalContracts } = await documentApi.countContract(type);
 
-			setDataQuickView({
-				totalUser,
-				totalDeposit,
-				totalContracts,
-			});
+				setDataQuickView({
+					totalUser,
+					totalDeposit,
+					totalContracts,
+				});
+			} catch (err) {
+				switch (err.status) {
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Loại dữ liệu không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
+			}
 		})();
 	}, [type]);
 
 	useEffect(() => {
 		(async () => {
-			const { data: statisticUser } = await userApi.statisticUser(userType);
+			const { data: statisticUser, status } = await userApi.statisticUser(userType);
+			if(status !== 200) {
+				switch (status) {
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Loại dữ liệu không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
+				return;
+			}
 
 			setDataUser({
 				...dataUser,
@@ -110,7 +144,25 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		(async () => {
-			const { data: statisticMoney } = await userApi.statisticMoney(moneyType);
+			const { data: statisticMoney, status } = await userApi.statisticMoney(moneyType);
+			if(status !== 200) {
+				switch (status) {
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Loại dữ liệu không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
+				return;
+			}
+
 			setDataMoney({
 				...dataMoney,
 				datasets: [
@@ -126,7 +178,24 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		(async () => {
-			const { data: statisticContract } = await documentApi.statisticContract(contractType);
+			const { data: statisticContract, status } = await documentApi.statisticContract(contractType);
+			if(status !== 200) {
+				switch (response.status) {
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 404:
+						error("Loại dữ liệu không tồn tại");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
+				return;
+			}
 			setDataContract({
 				...dataContract,
 				datasets: [

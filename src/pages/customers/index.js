@@ -84,7 +84,20 @@ const Customers = (props) => {
 					setIsLoading(false);
 				}
 			} catch (err) {
-				console.log(err);
+				switch (err.status) {
+					case 400:
+						error("Thiếu thông tin hoặc token");
+						break;
+					case 403:
+						error("Truy cập bị chặn");
+						break;
+					case 500:
+						error("Máy chủ gặp trục trặc");
+						break;
+					default:
+						error("Đã có lỗi xảy ra");
+						break;
+				}
 				setIsLoading(false);
 			}
 		})();

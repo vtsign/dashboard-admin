@@ -93,24 +93,6 @@ const EditCustomer = (props) => {
 				const response = await userApi.getUser(props.id);
 				if (response.status === 200) {
 					setUserInfo(response.data);
-				} else {
-					switch (response.status) {
-						case 400:
-							error("Thiếu thông tin hoặc access token");
-							break;
-						case 403:
-							error("Truy cập bị chặn");
-							break;
-						case 404:
-							error("Tài khoản không tồn tại");
-							break;
-						case 500:
-							error("Máy chủ gặp trục trặc");
-							break;
-						default:
-							error("Đã có lỗi xảy ra");
-							break;
-					}
 				}
 				const transactionsRes = await userApi.getTransactions({
 					id: props.id,
@@ -120,66 +102,14 @@ const EditCustomer = (props) => {
 					sort_type: props.sort_type,
 				});
 				if (transactionsRes.status === 200) setTransactions(transactionsRes.data);
-				else {
-					switch (transactionsRes.status) {
-						case 400:
-							error("Thiếu thông tin hoặc access token");
-							break;
-						case 403:
-							error("Truy cập bị chặn");
-							break;
-						case 419:
-							error("Thiếu thông tin");
-							break;
-						case 500:
-							error("Máy chủ gặp trục trặc");
-							break;
-						default:
-							error("Đã có lỗi xảy ra");
-							break;
-					}
-				}
-				const contractsRes = await documentApi.countAllContracts(props.id);
 
+				const contractsRes = await documentApi.countAllContracts(props.id);
 				if (contractsRes.status === 200) setContracts(contractsRes.data);
-				else {
-					switch (transactionsRes.status) {
-						case 400:
-							error("Thiếu thông tin hoặc access token");
-							break;
-						case 403:
-							error("Truy cập bị chặn");
-							break;
-						case 500:
-							error("Máy chủ gặp trục trặc");
-							break;
-						default:
-							error("Đã có lỗi xảy ra");
-							break;
-					}
-				}
 				setIsLoading(false);
 				if(props.pageQuery)
 					window.scrollTo(0, 1000)
 			} catch (err) {
-				error(err.toString() || "Đã có lỗi xảy ra");
-				setIsLoading(false);
-			}
-		})();
-	}, [props.id, props.page, props.size, props.sort_type, props.sort_field]);
-
-	const onSubmitChange = async (formData) => {
-		formData.role = role;
-		setIsLoading(true);
-
-		try {
-			const response = await userApi.updateUser(props.id, formData);
-			if(response.status === 200) {
-				setIsLoading(false);
-				success("Cập nhật tài khoản thành công");
-				router.reload();
-			} else {
-				switch (response.status) {
+				switch (err.status) {
 					case 400:
 						error("Thiếu thông tin hoặc access token");
 						break;
@@ -197,11 +127,40 @@ const EditCustomer = (props) => {
 						break;
 				}
 				setIsLoading(false);
-				return;
+			}
+		})();
+	}, [props.id, props.page, props.size, props.sort_type, props.sort_field]);
+
+	const onSubmitChange = async (formData) => {
+		formData.role = role;
+		setIsLoading(true);
+
+		try {
+			const response = await userApi.updateUser(props.id, formData);
+			if(response.status === 200) {
+				setIsLoading(false);
+				success("Cập nhật tài khoản thành công");
+				router.reload();
 			}
 		} catch (err) {
 			setIsLoading(false);
-			error(err.toString() || "Đã có lỗi xảy ra");
+			switch (err.status) {
+				case 400:
+					error("Thiếu thông tin hoặc access token");
+					break;
+				case 403:
+					error("Truy cập bị chặn");
+					break;
+				case 404:
+					error("Tài khoản không tồn tại");
+					break;
+				case 500:
+					error("Máy chủ gặp trục trặc");
+					break;
+				default:
+					error("Đã có lỗi xảy ra");
+					break;
+			}
 		}
 	};
 
