@@ -95,16 +95,6 @@ const Login = () => {
 							</Typography>
 						</Box>
 						<Grid container spacing={3}></Grid>
-						<Box
-							sx={{
-								pb: 1,
-								pt: 3,
-							}}
-						>
-							<Typography align="center" color="textSecondary" variant="body1">
-								Đăng nhập bằng địa chỉ email
-							</Typography>
-						</Box>
 						<TextField
 							error={Boolean(formik.touched.email && formik.errors.email)}
 							fullWidth
