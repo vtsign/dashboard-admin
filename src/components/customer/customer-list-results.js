@@ -212,7 +212,7 @@ export const CustomerListResults = ({
 		);
 	}
 
-	const showIconSort = (sortType === 'desc' ? <KeyboardArrowUp /> : <KeyboardArrowDown />)
+	const showIconSort = sortType === "desc" ? <KeyboardArrowUp /> : <KeyboardArrowDown />;
 
 	return (
 		<>
@@ -353,69 +353,87 @@ export const CustomerListResults = ({
 												<TableCell>{item.organization}</TableCell>
 												{status === "deleted" ? (
 													<TableCell align="center">
-														<IconButton
-															style={{ color: "green" }}
-															onClick={() => {
-																setOpenRestoreDialog(true);
-																setSelectedCustomer(item);
-															}}
-														>
-															<Restore />
-														</IconButton>
+														<Tooltip title="Khôi phục">
+															<IconButton
+																style={{ color: "green" }}
+																onClick={() => {
+																	setOpenRestoreDialog(true);
+																	setSelectedCustomer(item);
+																}}
+															>
+																<Restore />
+															</IconButton>
+														</Tooltip>
 													</TableCell>
 												) : status === "blocked" ? (
 													<TableCell align="center">
-														<IconButton
-															style={{ color: "rgb(52,152,219)" }}
-															onClick={() => handleEditCustomer(item)}
-														>
-															<Edit />
-														</IconButton>
-														<IconButton
-															style={{ color: "green" }}
-															onClick={() => {
-																setOpenUnblockDialog(true);
-																setSelectedCustomer(item);
-															}}
-														>
-															<LockOpen />
-														</IconButton>
-														<IconButton
-															style={{ color: "rgb(76,175,80)" }}
-															onClick={() => {
-																setOpenDeleteDialog(true);
-																setSelectedCustomer(item);
-															}}
-														>
-															<Delete />
-														</IconButton>
+														<Tooltip title="Chỉnh sửa">
+															<IconButton
+																style={{ color: "rgb(52,152,219)" }}
+																onClick={() =>
+																	handleEditCustomer(item)
+																}
+															>
+																<Edit />
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Bỏ chặn">
+															<IconButton
+																style={{ color: "green" }}
+																onClick={() => {
+																	setOpenUnblockDialog(true);
+																	setSelectedCustomer(item);
+																}}
+															>
+																<LockOpen />
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Xóa">
+															<IconButton
+																style={{ color: "rgb(76,175,80)" }}
+																onClick={() => {
+																	setOpenDeleteDialog(true);
+																	setSelectedCustomer(item);
+																}}
+															>
+																<Delete />
+															</IconButton>
+														</Tooltip>
 													</TableCell>
 												) : (
 													<TableCell align="center">
-														<IconButton
-															style={{ color: "rgb(52,152,219)" }}
-															onClick={() => handleEditCustomer(item)}
-														>
-															<Edit />
-														</IconButton>
-														<IconButton
-															style={{ color: "red" }}
-															onClick={() => {
-																setOpenBlockDialog(true);
-																setSelectedCustomer(item);
-															}}
-														>
-															<Block />
-														</IconButton>
-														<IconButton
-															style={{ color: "rgb(76,175,80)" }}
-															onClick={() => {
-																setOpenDeleteDialog(true);
-																setSelectedCustomer(item);
-															}}
-														>
-															<Delete />
-														</IconButton>
+														<Tooltip title="Chỉnh sửa">
+															<IconButton
+																style={{ color: "rgb(52,152,219)" }}
+																onClick={() =>
+																	handleEditCustomer(item)
+																}
+															>
+																<Edit />
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Chặn">
+															<IconButton
+																style={{ color: "red" }}
+																onClick={() => {
+																	setOpenBlockDialog(true);
+																	setSelectedCustomer(item);
+																}}
+															>
+																<Block />
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Xóa">
+															<IconButton
+																style={{ color: "rgb(76,175,80)" }}
+																onClick={() => {
+																	setOpenDeleteDialog(true);
+																	setSelectedCustomer(item);
+																}}
+															>
+																<Delete />
+															</IconButton>
+														</Tooltip>
 													</TableCell>
 												)}
 											</TableRow>
