@@ -76,7 +76,7 @@ const Login = () => {
 		<>
 			{isLoading && <Loading />}
 			<Head>
-				<title>Login</title>
+				<title>Đăng nhập | VTSign</title>
 			</Head>
 			<Box
 				component="main"
