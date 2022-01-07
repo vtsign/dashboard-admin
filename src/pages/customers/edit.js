@@ -62,7 +62,14 @@ export async function getServerSideProps(ctx) {
 	let sort_field = query.sort_field ?? "";
 	let sort_type = query.sort_type ?? "asc";
 
-	const props = { id, pageQuery, page: parseInt(page), size: parseInt(size), sort_field, sort_type };
+	const props = {
+		id,
+		pageQuery,
+		page: parseInt(page),
+		size: parseInt(size),
+		sort_field,
+		sort_type,
+	};
 
 	return { props };
 }
@@ -106,8 +113,7 @@ const EditCustomer = (props) => {
 				const contractsRes = await documentApi.countAllContracts(props.id);
 				if (contractsRes.status === 200) setContracts(contractsRes.data);
 				setIsLoading(false);
-				if(props.pageQuery)
-					window.scrollTo(0, 1000)
+				if (props.pageQuery) window.scrollTo(0, 1000);
 			} catch (err) {
 				switch (err.status) {
 					case 400:
@@ -137,7 +143,7 @@ const EditCustomer = (props) => {
 
 		try {
 			const response = await userApi.updateUser(props.id, formData);
-			if(response.status === 200) {
+			if (response.status === 200) {
 				setIsLoading(false);
 				success("Cập nhật tài khoản thành công");
 				router.reload();
@@ -169,20 +175,16 @@ const EditCustomer = (props) => {
 		if (props.size) query += `&size=${props.size}`;
 		if (props.sort_field) query += `&sort_field=&${props.sort_field}`;
 		if (props.sort_type) query += `&sort_type=&${props.sort_type}`;
-		router.push(
-			`/customers/edit?id=${props.id}&page=${page + 1}${query}`, null, {
-				scroll: true
-			}
-		);
+		router.push(`/customers/edit?id=${props.id}&page=${page + 1}${query}`, null, {
+			scroll: true,
+		});
 	};
 
 	const handleChangeRowsPerPage = async (e, rows) => {
 		let query = "";
 		if (props.sort_field) query += `&sort_field=&${props.sort_field}`;
 		if (props.sort_type) query += `&sort_type=&${props.sort_type}`;
-		router.push(
-			`/customers/edit?id=${props.id}&page=1&size=${rows.props.value}${query}`
-		);
+		router.push(`/customers/edit?id=${props.id}&page=1&size=${rows.props.value}${query}`);
 	};
 
 	const handleSort = (field) => {
@@ -210,7 +212,7 @@ const EditCustomer = (props) => {
 	return (
 		<>
 			<Head>
-				<title>Account | VTSign</title>
+				<title>Danh sách người dùng | VTSign</title>
 			</Head>
 			<Box
 				component="main"
@@ -255,10 +257,12 @@ const EditCustomer = (props) => {
 												{userInfo.first_name} {userInfo.last_name}
 											</Typography>
 											<Typography color="textSecondary" variant="body2">
+												<b style={{ fontSize: 16 }}>Email:</b>{" "}
 												{userInfo.email}
 											</Typography>
 											<Typography color="textSecondary" variant="body2">
-												Số dư {formatNumber(userInfo.balance)} đ
+												<b style={{ fontSize: 16 }}>Số dư:</b>{" "}
+												{formatNumber(userInfo.balance)} đ
 											</Typography>
 										</Box>
 									</CardContent>

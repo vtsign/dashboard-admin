@@ -17,7 +17,7 @@ const Account = () => {
 			try {
 				setLoading(true);
 				const response = await userApi.getUserProfile();
-				if(response.status === 200) {
+				if (response.status === 200) {
 					setLoading(false);
 					setUserInfo(response.data);
 				}
@@ -46,7 +46,7 @@ const Account = () => {
 	return (
 		<>
 			<Head>
-				<title>Account | VTSign</title>
+				<title>Thông tin tài khoản | VTSign</title>
 			</Head>
 			<Box
 				component="main"
@@ -59,7 +59,7 @@ const Account = () => {
 				{!loading && userInfo && (
 					<Container maxWidth="lg">
 						<Typography sx={{ mb: 3 }} variant="h4">
-							Account
+							Thông tin tài khoản
 						</Typography>
 						<Grid container className="profile__container">
 							<Grid container spacing={3}>

@@ -7,8 +7,7 @@ import { CustomerListToolbar } from "../../components/customer/customer-list-too
 import { DashboardLayout } from "../../components/dashboard-layout";
 import userApi from "src/api/userApi";
 import Loading from "src/components/Loading/Loading";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material"
-
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 const listStatus = [
 	{
@@ -52,7 +51,7 @@ const Customers = (props) => {
 					pageSize: size,
 					keyword: search,
 					sortField,
-					sortType: sortType
+					sortType: sortType,
 				});
 				listStatus[0].total = allUsers.total_elements;
 				const { data: blockedUsers } = await userApi.getBlockedUsers({
@@ -119,9 +118,7 @@ const Customers = (props) => {
 		if (search) query += `&search=${search}`;
 		if (sortField) query += `&sort_field=&${sortField}`;
 		if (sortType) query += `&sort_type=&${sortType}`;
-		router.push(
-			`/customers?page=1&size=${rows.props.value}${query}`
-		);
+		router.push(`/customers?page=1&size=${rows.props.value}${query}`);
 	};
 
 	const handleChangeTab = (e, status) => {
@@ -130,9 +127,7 @@ const Customers = (props) => {
 		if (search) query += `&search=${search}`;
 		if (sortField) query += `&sort_field=&${sortField}`;
 		if (sortType) query += `&sort_type=&${sortType}`;
-		router.push(
-			`customers?page=${1}&status=${status}${query}`
-		);
+		router.push(`customers?page=${1}&status=${status}${query}`);
 	};
 
 	const handleSearch = (search) => {
@@ -141,29 +136,23 @@ const Customers = (props) => {
 		if (status) query += `&status=${status}`;
 		if (sortField) query += `&sort_field=&${sortField}`;
 		if (sortType) query += `&sort_type=&${sortType}`;
-		router.push(
-			`/customers?page=${1}${query}&search=${search}`
-		);
+		router.push(`/customers?page=${1}${query}&search=${search}`);
 	};
 
 	const handleSort = (field) => {
 		let type = "asc";
-		if(sortType === "asc")
-			type = "desc";
+		if (sortType === "asc") type = "desc";
 		let query = "";
 		if (size) query += `&size=${size}`;
 		if (status) query += `&status=${status}`;
 		if (search) query += `&search=${search}`;
-		router.push(
-			`/customers?page=${1}${query}&sortField=${field}&sortType=${type}`
-		);
-
-	}
+		router.push(`/customers?page=${1}${query}&sortField=${field}&sortType=${type}`);
+	};
 
 	return (
 		<>
 			<Head>
-				<title>Customers | VTSign</title>
+				<title>Danh sách người dùng | VTSign</title>
 			</Head>
 			{isLoading && <Loading />}
 			<Box
