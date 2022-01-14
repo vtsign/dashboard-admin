@@ -32,6 +32,7 @@ import {
 	Restore,
 	KeyboardArrowDown,
 	KeyboardArrowUp,
+	Visibility,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import userApi from "src/api/userApi";
@@ -63,6 +64,10 @@ export const CustomerListResults = ({
 
 	const router = useRouter();
 	const { success, error } = useToast();
+
+	const handleViewCustomer = async (customer) => {
+		router.push(`/customers/view?id=${customer.id}`);
+	};
 
 	const handleEditCustomer = async (customer) => {
 		router.push(`/customers/edit?id=${customer.id}`);
@@ -230,7 +235,7 @@ export const CustomerListResults = ({
 			</Tabs>
 			<Card {...rest}>
 				<PerfectScrollbar>
-					<Box sx={{ minWidth: 1050 }}>
+					<Box>
 						<TableContainer component={Paper}>
 							<Table>
 								<TableHead>
@@ -367,6 +372,16 @@ export const CustomerListResults = ({
 													</TableCell>
 												) : status === "blocked" ? (
 													<TableCell align="center">
+														<Tooltip title="Xem chi tiết">
+															<IconButton
+																style={{ color: "#000" }}
+																onClick={() =>
+																	handleViewCustomer(item)
+																}
+															>
+																<Visibility />
+															</IconButton>
+														</Tooltip>
 														<Tooltip title="Chỉnh sửa">
 															<IconButton
 																style={{ color: "rgb(52,152,219)" }}
@@ -402,6 +417,16 @@ export const CustomerListResults = ({
 													</TableCell>
 												) : (
 													<TableCell align="center">
+														<Tooltip title="Xem chi tiết">
+															<IconButton
+																style={{ color: "#000" }}
+																onClick={() =>
+																	handleViewCustomer(item)
+																}
+															>
+																<Visibility />
+															</IconButton>
+														</Tooltip>
 														<Tooltip title="Chỉnh sửa">
 															<IconButton
 																style={{ color: "rgb(52,152,219)" }}
